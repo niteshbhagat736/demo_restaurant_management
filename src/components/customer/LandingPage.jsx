@@ -86,18 +86,18 @@ export const LandingPage = () => {
   return (
     <div style={{ overflowX: 'hidden' }}>
 
-      {/* ─── HERO: Full-bleed parallax (no side padding) ──── */}
-      <div className="hero-fullbleed">
+      {/* ─── HERO: 100% Full-bleed (Zero side padding) ──── */}
       <section
         ref={heroParallaxRef}
         style={{
           position: 'relative',
           overflow: 'hidden',
-          minHeight: '90vh',
+          width: '100%',
+          minHeight: '92vh',
           display: 'flex',
           alignItems: 'center',
           marginBottom: '0',
-          backgroundImage: `url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1800&q=85')`,
+          backgroundImage: `url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=2000&q=85')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center 30%',
           backgroundAttachment: 'fixed',
@@ -204,7 +204,9 @@ export const LandingPage = () => {
           </div>
         </div>
       </section>
-      </div>{/* end hero-fullbleed */}
+
+      {/* ─── MAIN LANDING CONTAINER (Centered 1280px max-width) ──── */}
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem 5rem', width: '100%' }}>
 
       {/* ─── METRICS STRIP ─────────────────────────────────── */}
       <RevealSection style={{ marginBottom: '5rem' }}>
@@ -696,6 +698,8 @@ export const LandingPage = () => {
           </div>
         </div>
       </RevealSection>
+
+      </div>{/* end main landing container */}
 
     </div>
   );

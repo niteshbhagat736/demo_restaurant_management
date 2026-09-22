@@ -30,7 +30,7 @@ const MainAppContent = () => {
 
       {/* Customer Views */}
       {!isAdmin && (
-        <main className="main-content">
+        <main className={currentView === 'home' ? 'main-content-home' : 'main-content'}>
           {currentView === 'home' && <LandingPage />}
           {currentView === 'menu' && <DigitalMenu />}
           {currentView === 'reservation' && <TableBooking />}
