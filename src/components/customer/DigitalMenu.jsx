@@ -58,19 +58,19 @@ export const DigitalMenu = () => {
   return (
     <div>
       {/* Header Banner */}
-      <div style={{ background: 'linear-gradient(135deg, #1e293b, #0f172a)', color: 'white', padding: '2.5rem', borderRadius: 'var(--radius-lg)', marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem' }}>
+      <div className="menu-banner-inner" style={{ background: 'linear-gradient(135deg, #1e293b, #0f172a)', color: 'white', padding: '2.5rem', borderRadius: 'var(--radius-lg)', marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem' }}>
         <div>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(245, 158, 11, 0.2)', color: '#fde047', padding: '0.3rem 0.8rem', borderRadius: 'var(--radius-full)', fontSize: '0.8rem', fontWeight: 700, marginBottom: '0.75rem' }}>
             <Sparkles size={14} /> LIVE DIGITAL MENU & CONTACTLESS ORDERING
           </div>
-          <h1 style={{ fontSize: '2.5rem' }}>Explore Our Gourmet Creation</h1>
+          <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2.5rem)' }}>Explore Our Gourmet Creation</h1>
           <p style={{ color: '#94a3b8', fontSize: '1rem', marginTop: '0.4rem' }}>
             Freshly prepared to order. Select your favorites to add to your table bill or digital takeaway order.
           </p>
         </div>
 
         {/* Search Input */}
-        <div style={{ position: 'relative', width: '100%', maxWidth: '340px' }}>
+        <div className="menu-banner-search" style={{ position: 'relative', width: '100%', maxWidth: '340px' }}>
           <Search size={18} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
           <input
             type="text"

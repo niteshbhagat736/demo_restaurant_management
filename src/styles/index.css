@@ -310,6 +310,31 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
 }
 
+.logo-subtitle {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: -3px;
+}
+
+/* Admin top bar label — hidden on mobile */
+.admin-topbar-label {
+  display: inline;
+}
+
+@media (max-width: 640px) {
+  .admin-topbar-label {
+    display: none;
+  }
+  .logo-subtitle {
+    display: none;
+  }
+  .logo-brand {
+    font-size: 1.2rem;
+    gap: 0.5rem;
+  }
+}
+
 .nav-links {
   display: flex;
   align-items: center;
@@ -632,6 +657,13 @@ h1, h2, h3, h4, h5, h6 {
   overflow-x: auto;
   padding-bottom: 0.5rem;
   margin-bottom: 2rem;
+  max-width: 100vw;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+}
+
+.category-tabs::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
 .cat-tab-btn {
@@ -1114,3 +1146,650 @@ h1, h2, h3, h4, h5, h6 {
   background: #334155;
   border-radius: 4px;
 }
+
+/* ─── Table Booking Mobile Responsive Classes ─── */
+.booking-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.booking-form-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.booking-pass-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 900px) {
+  .booking-layout {
+    grid-template-columns: 1fr 380px;
+  }
+  .booking-pass-col {
+    position: sticky;
+    top: 100px;
+  }
+}
+
+/* ─── Bento Gallery Grid Responsive Classes ─── */
+.bento-gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: 250px;
+  gap: 1rem;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.bento-large-tile {
+  grid-row: span 1;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .bento-gallery-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .bento-large-tile {
+    grid-row: span 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bento-gallery-grid {
+    grid-template-columns: 1.6fr 1fr 1fr;
+    grid-template-rows: 280px 280px;
+  }
+}
+
+/* ─── Mobile Header Navigation ─── */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-main);
+  padding: 0.5rem;
+}
+
+@media (max-width: 900px) {
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .hide-on-mobile {
+    display: none;
+  }
+  
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(12px);
+    flex-direction: column;
+    padding: 1rem;
+    box-shadow: var(--shadow-md);
+    gap: 0.5rem;
+    transform: translateY(-10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid var(--border-light);
+  }
+  
+  .nav-links.mobile-open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  .nav-link-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 1rem;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════
+   COMPREHENSIVE MOBILE RESPONSIVE OVERHAUL
+   Breakpoints: 480px (xs), 640px (sm), 900px (md)
+   ═══════════════════════════════════════════════ */
+
+/* ── Global mobile adjustments ── */
+@media (max-width: 640px) {
+  .main-content {
+    padding: 1rem;
+  }
+
+  /* Smaller heading sizes on mobile */
+  h1 { font-size: clamp(1.6rem, 6vw, 2.5rem) !important; }
+  h2 { font-size: clamp(1.3rem, 5vw, 2rem) !important; }
+  h3 { font-size: clamp(1.05rem, 4vw, 1.5rem) !important; }
+
+  /* Buttons full-width on mobile */
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    justify-content: center;
+    padding: 0.9rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  /* Hero section */
+  .hero-section {
+    padding: 2.5rem 1.25rem;
+    border-radius: 0;
+    margin-bottom: 2rem;
+  }
+
+  /* Stat cards: 2 cols on small mobile */
+  .business-stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .business-stat-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+    gap: 0.6rem;
+  }
+
+  /* Features Grid: 1 col on mobile */
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  /* Dish grid: 1 col */
+  .dish-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  /* Vibrant cards */
+  .vibrant-card {
+    padding: 1.25rem;
+  }
+
+  /* Section title size */
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  /* Section header: stack on mobile */
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* Toast position on mobile */
+  .toast-container {
+    bottom: 12px;
+    right: 12px;
+    left: 12px;
+  }
+
+  .toast-box {
+    font-size: 0.88rem;
+    padding: 0.85rem 1rem;
+  }
+
+  /* Modal card: full width on mobile */
+  .modal-overlay {
+    padding: 0.75rem;
+    align-items: flex-end; /* bottom-sheet style on mobile */
+  }
+
+  .modal-card {
+    max-width: 100%;
+    max-height: 95vh;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .modal-body {
+    max-height: 65vh;
+  }
+
+  /* Cart drawer: full width on mobile */
+  .cart-drawer {
+    max-width: 100%;
+  }
+
+  /* Admin stats / KPI grid */
+  .pos-kanban-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Tables grid: 2 col on small mobile */
+  .tables-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .table-node {
+    padding: 1rem 0.75rem;
+  }
+
+  /* Footer */
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Portal switch button: smaller */
+  .portal-switch-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  /* Logo brand: smaller font */
+  .logo-brand {
+    font-size: 1.2rem;
+    gap: 0.5rem;
+  }
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* ── Admin Panel Mobile ── */
+@media (max-width: 900px) {
+  /* Booking layout header */
+  .booking-layout header h1 {
+    font-size: 1.4rem;
+  }
+}
+
+/* ── Hero floating stats: hide on mobile, show inline ── */
+@media (max-width: 900px) {
+  .hero-floating-stats {
+    position: static !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+    align-items: flex-start !important;
+    margin-top: 1.5rem !important;
+  }
+
+  .hero-floating-stat-chip {
+    min-width: unset !important;
+    flex: 1 1 140px !important;
+  }
+}
+
+/* ── Hero section inner padding on mobile ── */
+@media (max-width: 640px) {
+  .hero-inner-pad {
+    padding: 4rem 1.25rem 3rem !important;
+  }
+}
+
+/* ── Background attachment: fixed causes issues on iOS ── */
+@media (max-width: 900px) {
+  .parallax-section,
+  [style*="backgroundAttachment: fixed"] {
+    background-attachment: scroll !important;
+  }
+}
+
+/* ── Stats metrics strip: 2 cols on mobile ── */
+@media (max-width: 640px) {
+  .metrics-strip-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* ── AnalyticsDashboard: KPI cards grid ── */
+@media (max-width: 640px) {
+  .analytics-kpi-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .analytics-kpi-card {
+    padding: 1rem;
+  }
+}
+
+/* ── Table booking page inner ── */
+@media (max-width: 640px) {
+  .booking-header-banner {
+    padding: 1.5rem 1.25rem !important;
+    text-align: center;
+  }
+  .booking-header-banner h1 {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* ── Admin layout content area scroll ── */
+@media (max-width: 1024px) {
+  .admin-content-scroll {
+    padding: 1rem !important;
+  }
+}
+
+/* ── Responsive nav container position ── */
+@media (max-width: 900px) {
+  .header-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  .nav-container {
+    position: relative;
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* ── POS Kanban: horizontal scroll on mobile ── */
+@media (max-width: 900px) {
+  .pos-kanban-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .pos-kanban-grid::-webkit-scrollbar { display: none; }
+  .pos-column {
+    min-width: 280px;
+    flex-shrink: 0;
+  }
+}
+
+/* ── Admin header tabs: hidden scrollbar ── */
+.admin-header-tabs {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.admin-header-tabs::-webkit-scrollbar { display: none; }
+
+/* ── Tables grid: 2 cols on tablet ── */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .tables-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ── Bento gallery: hide extra images on xs ── */
+@media (max-width: 480px) {
+  .bento-gallery-grid {
+    grid-auto-rows: 200px;
+  }
+}
+
+/* ── DigitalMenu banner flex fix ── */
+@media (max-width: 640px) {
+  .menu-banner-inner {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  .menu-banner-search {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* ── Staff roster table ── */
+@media (max-width: 900px) {
+  .staff-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .staff-table-wrap table {
+    min-width: 600px;
+  }
+}
+
+/* ── TableBooking form panels ── */
+@media (max-width: 640px) {
+  .booking-form-col > div {
+    padding: 1.25rem !important;
+  }
+  .booking-form-col h3 {
+    font-size: 1.05rem !important;
+  }
+}
+
+/* ── Cart drawer ── */
+@media (max-width: 640px) {
+  .cart-drawer {
+    max-width: 100vw;
+  }
+}
+
+/* ── Section padding ── */
+@media (max-width: 640px) {
+  [style*="marginBottom: '5rem'"],
+  [style*="marginBottom: '4rem'"] {
+    margin-bottom: 3rem !important;
+  }
+  [style*="padding: '4.5rem 3rem'"] {
+    padding: 2.5rem 1.25rem !important;
+  }
+}
+
+/* ── Order tracker grid: single col on mobile ── */
+@media (max-width: 640px) {
+  .order-tracker-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+}
+
+/* ── Ambiance / feature section layout fix ── */
+@media (max-width: 640px) {
+  .ambiance-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .ambiance-info-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.75rem !important;
+  }
+}
+
+/* ── Live POS Feed Header & Listener Badge Responsive ── */
+.pos-feed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.pos-feed-subtitle {
+  font-size: 0.95rem;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pos-pulse-dot-green {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  display: inline-block;
+  box-shadow: 0 0 8px #10b981;
+  flex-shrink: 0;
+  animation: pulse 1.8s infinite;
+}
+
+.pos-live-listener-badge {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+  padding: 0.45rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-shadow: 0 2px 10px rgba(239, 68, 68, 0.15);
+}
+
+.pos-bell-pulse {
+  animation: pulse 1.5s infinite;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .pos-feed-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.65rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .pos-feed-subtitle {
+    font-size: 0.82rem;
+  }
+
+  .pos-live-listener-badge {
+    font-size: 0.76rem;
+    padding: 0.35rem 0.75rem;
+    white-space: nowrap;
+  }
+}
+
+/* ── Customer Mobile Menu Portal Link ── */
+.mobile-portal-menu-link {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  .mobile-portal-menu-link {
+    display: flex !important;
+  }
+}
+
+/* ── Admin Topbar Exit Button hidden on Mobile ── */
+@media (max-width: 1024px) {
+  .admin-topbar-exit-btn {
+    display: none !important;
+  }
+}
+
+/* ── Landing Page Main Container ── */
+@media (max-width: 640px) {
+  .landing-main-container {
+    padding: 0 1rem 3rem !important;
+  }
+}
+
+/* ── Ambiance Split Section (Why Choose GourmetPulse) Responsive ── */
+.ambiance-split-section {
+  padding: 4rem 3rem;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.ambiance-split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+.ambiance-split-content {
+  min-width: 0;
+  width: 100%;
+}
+
+.ambiance-mosaic-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 200px 200px;
+  gap: 0.85rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mosaic-img-tall {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  grid-row: span 2;
+  display: block;
+}
+
+.mosaic-img-small {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  display: block;
+}
+
+@media (max-width: 1024px) {
+  .ambiance-split-section {
+    padding: 3rem 2rem;
+  }
+  .ambiance-split-grid {
+    gap: 2rem;
+  }
+  .ambiance-mosaic-grid {
+    grid-template-rows: 170px 170px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ambiance-split-section {
+    padding: 2rem 1.25rem !important;
+    border-radius: var(--radius-md) !important;
+    margin-bottom: 2.5rem !important;
+  }
+
+  .ambiance-split-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.75rem !important;
+  }
+
+  .ambiance-mosaic-grid {
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: 140px 140px !important;
+    gap: 0.6rem !important;
+  }
+
+  .ambiance-book-btn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .ambiance-split-section {
+    padding: 1.5rem 1rem !important;
+  }
+
+  .ambiance-mosaic-grid {
+    grid-template-rows: 110px 110px !important;
+  }
+}
+
+
+

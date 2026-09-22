@@ -23,12 +23,14 @@ export const POSDashboard = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-        <div style={{ fontSize: '1rem', color: '#94a3b8' }}>
-          Live Transmission Feed • Real-time synchronization active
+      <div className="pos-feed-header">
+        <div className="pos-feed-subtitle">
+          <span className="pos-pulse-dot-green"></span>
+          <span>Live Transmission Feed • Real-time synchronization active</span>
         </div>
-        <div style={{ background: 'rgba(239, 68, 68, 0.15)', border: '1px solid #ef4444', color: '#fca5a5', padding: '0.4rem 0.9rem', borderRadius: 'var(--radius-full)', fontSize: '0.85rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-          <Bell size={14} className="animate-pulse" /> Live Order Listener Active
+        <div className="pos-live-listener-badge">
+          <Bell size={14} className="pos-bell-pulse" />
+          <span>Live Order Listener Active</span>
         </div>
       </div>
 

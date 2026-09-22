@@ -58,11 +58,12 @@ const useReveal = () => {
   return [ref, visible];
 };
 
-const RevealSection = ({ children, delay = 0, style = {} }) => {
+const RevealSection = ({ children, delay = 0, style = {}, className = '' }) => {
   const [ref, visible] = useReveal();
   return (
     <div
       ref={ref}
+      className={className}
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? 'translateY(0)' : 'translateY(40px)',
@@ -89,11 +90,12 @@ export const LandingPage = () => {
       {/* ─── HERO: 100% Full-bleed (Zero side padding) ──── */}
       <section
         ref={heroParallaxRef}
+        className="parallax-section"
         style={{
           position: 'relative',
           overflow: 'hidden',
           width: '100%',
-          minHeight: '92vh',
+          minHeight: 'min(92vh, 700px)',
           display: 'flex',
           alignItems: 'center',
           marginBottom: '0',
@@ -121,7 +123,7 @@ export const LandingPage = () => {
           pointerEvents: 'none'
         }} />
 
-        <div style={{ position: 'relative', zIndex: 2, maxWidth: '1280px', margin: '0 auto', padding: '6rem 2.5rem 5rem', width: '100%' }}>
+        <div className="hero-inner-pad" style={{ position: 'relative', zIndex: 2, maxWidth: '1280px', margin: '0 auto', padding: '6rem 2.5rem 5rem', width: '100%' }}>
           <div style={{ maxWidth: '700px' }}>
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
@@ -175,7 +177,7 @@ export const LandingPage = () => {
           </div>
 
           {/* Floating stat chips */}
-          <div style={{
+          <div className="hero-floating-stats" style={{
             position: 'absolute', bottom: '3rem', right: '2.5rem',
             display: 'flex', flexDirection: 'column', gap: '0.75rem',
             alignItems: 'flex-end'
@@ -185,7 +187,7 @@ export const LandingPage = () => {
               { icon: Award, value: 'Michelin 2026', label: 'Certified' },
               { icon: Users, value: '12k+', label: 'Monthly Diners' }
             ].map(({ icon: Icon, value, label }) => (
-              <div key={label} style={{
+              <div key={label} className="hero-floating-stat-chip" style={{
                 background: 'rgba(255,255,255,0.1)',
                 backdropFilter: 'blur(12px)',
                 border: '1px solid rgba(255,255,255,0.2)',
@@ -206,7 +208,7 @@ export const LandingPage = () => {
       </section>
 
       {/* ─── MAIN LANDING CONTAINER (Centered 1280px max-width) ──── */}
-      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem 5rem', width: '100%' }}>
+      <div className="landing-main-container" style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem 5rem', width: '100%', boxSizing: 'border-box' }}>
 
       {/* ─── METRICS STRIP ─────────────────────────────────── */}
       <RevealSection style={{ marginBottom: '5rem' }}>
@@ -291,12 +293,9 @@ export const LandingPage = () => {
         </div>
 
         {/* Bento-style image grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr', gridTemplateRows: '280px 280px', gap: '1rem', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
+        <div className="bento-gallery-grid">
           {/* Large left tile */}
-          <div style={{
-            gridRow: 'span 2',
-            position: 'relative', overflow: 'hidden', borderRadius: 'var(--radius-md)', cursor: 'pointer'
-          }} className="bento-img-tile">
+          <div className="bento-img-tile bento-large-tile">
             <img
               src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=900&q=85"
               alt="Signature Plating"
@@ -649,13 +648,13 @@ export const LandingPage = () => {
       </section>
 
       {/* ─── AMBIANCE SPLIT SECTION ──────────────────────── */}
-      <RevealSection style={{ background: 'white', borderRadius: 'var(--radius-lg)', padding: '4rem 3rem', border: '1px solid var(--border-light)', marginBottom: '4rem', boxShadow: 'var(--shadow-sm)' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '3.5rem', alignItems: 'center' }}>
-          <div>
+      <RevealSection className="ambiance-split-section" style={{ background: 'white', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-light)', marginBottom: '4rem', boxShadow: 'var(--shadow-sm)' }}>
+        <div className="ambiance-split-grid">
+          <div className="ambiance-split-content">
             <div style={{ color: 'var(--color-primary-hover)', fontWeight: 700, fontSize: '0.85rem', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
               Why Choose GourmetPulse
             </div>
-            <h2 style={{ fontSize: 'clamp(1.9rem,4vw,2.6rem)', lineHeight: 1.2, marginBottom: '1.25rem', color: 'var(--text-main)' }}>
+            <h2 style={{ fontSize: 'clamp(1.7rem,4vw,2.6rem)', lineHeight: 1.2, marginBottom: '1.25rem', color: 'var(--text-main)' }}>
               Where Gastronomy Meets Seamless Hospitality
             </h2>
             <p style={{ color: 'var(--text-muted)', lineHeight: 1.75, marginBottom: '1.75rem', fontSize: '0.98rem' }}>
@@ -668,32 +667,33 @@ export const LandingPage = () => {
                 'Private VIP Dining with Dedicated Chef Service',
                 'Live Order Tracking from Kitchen to Table'
               ].map(feature => (
-                <div key={feature} style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', fontWeight: 600, color: 'var(--text-main)', fontSize: '0.96rem' }}>
-                  <CheckCircle2 size={20} color="var(--color-success)" style={{ flexShrink: 0 }} /> {feature}
+                <div key={feature} style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', fontWeight: 600, color: 'var(--text-main)', fontSize: '0.95rem' }}>
+                  <CheckCircle2 size={20} color="var(--color-success)" style={{ flexShrink: 0 }} />
+                  <span>{feature}</span>
                 </div>
               ))}
             </div>
-            <button className="btn-primary" onClick={() => setCurrentView('reservation')}>
+            <button className="btn-primary ambiance-book-btn" onClick={() => setCurrentView('reservation')}>
               <Calendar size={18} /> Book Your Table Experience
             </button>
           </div>
 
           {/* Asymmetric image mosaic */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '200px 200px', gap: '0.85rem' }}>
+          <div className="ambiance-mosaic-grid">
             <img
               src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=600&q=80"
               alt="Chef Plating"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'var(--radius-md)', gridRow: 'span 2' }}
+              className="mosaic-img-tall"
             />
             <img
               src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=400&q=80"
               alt="Gourmet Salad"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'var(--radius-md)' }}
+              className="mosaic-img-small"
             />
             <img
               src="https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=400&q=80"
               alt="Wine Service"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'var(--radius-md)' }}
+              className="mosaic-img-small"
             />
           </div>
         </div>

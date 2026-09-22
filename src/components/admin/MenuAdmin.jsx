@@ -51,13 +51,14 @@ export const MenuAdmin = () => {
       </div>
 
       <div style={{ background: '#1e293b', borderRadius: 'var(--radius-md)', border: '1px solid #334155', overflow: 'hidden' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', color: 'white', fontSize: '0.9rem' }}>
-          <thead>
-            <tr style={{ background: '#0f172a', borderBottom: '1px solid #334155', color: '#94a3b8' }}>
-              <th style={{ padding: '1rem' }}>Dish</th>
-              <th style={{ padding: '1rem' }}>Category</th>
-              <th style={{ padding: '1rem' }}>Price</th>
-              <th style={{ padding: '1rem' }}>Prep Time</th>
+        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', color: 'white', fontSize: '0.9rem', minWidth: '700px' }}>
+            <thead>
+              <tr style={{ background: '#0f172a', borderBottom: '1px solid #334155', color: '#94a3b8' }}>
+                <th style={{ padding: '1rem' }}>Dish</th>
+                <th style={{ padding: '1rem' }}>Category</th>
+                <th style={{ padding: '1rem' }}>Price</th>
+                <th style={{ padding: '1rem' }}>Prep Time</th>
               <th style={{ padding: '1rem' }}>Live Stock Status</th>
               <th style={{ padding: '1rem' }}>Actions</th>
             </tr>
@@ -110,6 +111,7 @@ export const MenuAdmin = () => {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* Add Dish Modal */}

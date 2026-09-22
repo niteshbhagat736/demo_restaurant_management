@@ -87,9 +87,9 @@ export const TableBooking = () => {
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2.5rem', alignItems: 'start' }}>
+      <div className="booking-layout">
         {/* Left Column: Interactive Booking Form */}
-        <form onSubmit={handleSubmitBooking} style={{ display: 'flex', flexDirection: 'column', gap: '2rem', gridColumn: '1 / -1', '@media (min-width: 900px)': { gridColumn: '1 / 2' } }}>
+        <form onSubmit={handleSubmitBooking} className="booking-form-col">
           
           {/* Step 1: Guests & Date */}
           <div style={{ background: 'white', padding: '2rem', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-light)', boxShadow: 'var(--shadow-sm)' }}>
@@ -254,7 +254,7 @@ export const TableBooking = () => {
         </form>
 
         {/* Right Column: Live Pass Preview & Policies */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', gridColumn: '1 / -1', '@media (min-width: 900px)': { gridColumn: '2 / 3', position: 'sticky', top: '100px' } }}>
+        <div className="booking-pass-col">
           
           {/* Live Interactive Digital Pass */}
           <div style={{ background: 'white', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-light)', overflow: 'hidden', boxShadow: 'var(--shadow-md)' }}>

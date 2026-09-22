@@ -66,8 +66,8 @@ export const OrderTracker = () => {
             </div>
 
             {/* Visual Timeline Bar */}
-            <div style={{ marginBottom: '3rem', position: 'relative', padding: '0 1rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', position: 'relative', zIndex: 2 }}>
+            <div style={{ marginBottom: '3rem', position: 'relative', padding: '0 0.5rem', overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', position: 'relative', zIndex: 2, minWidth: '550px', gap: '1rem' }}>
                 {[
                   { step: 1, title: 'Order Placed', desc: 'Received at POS' },
                   { step: 2, title: 'Kitchen Cooking', desc: activeOrder.chefAssigned },
