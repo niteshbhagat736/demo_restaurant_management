@@ -19,7 +19,8 @@ export const PaymentModal = () => {
     setIsPaymentModalOpen,
     cart,
     placeOrder,
-    setCurrentView
+    setCurrentView,
+    formatINR
   } = useApp();
 
   const [paymentMethod, setPaymentMethod] = useState('card'); // 'card' | 'upi' | 'applepay' | 'cash'
@@ -36,7 +37,6 @@ export const PaymentModal = () => {
 
   const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   const totalAmount = +(subtotal * 1.1).toFixed(2);
-
   const handleSimulatePayment = (e) => {
     e.preventDefault();
     setIsProcessing(true);
@@ -94,12 +94,12 @@ export const PaymentModal = () => {
                   {completedOrderReceipt.items.map(item => (
                     <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
                       <span>{item.quantity}x {item.name}</span>
-                      <span style={{ fontWeight: 600 }}>${(item.price * item.quantity).toFixed(2)}</span>
+                      <span style={{ fontWeight: 600 }}>{formatINR(item.price * item.quantity)}</span>
                     </div>
                   ))}
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.1rem', fontWeight: 800, marginTop: '0.5rem', paddingTop: '0.5rem', borderTop: '1px solid var(--border-light)' }}>
                     <span>Total Amount Paid</span>
-                    <span>${completedOrderReceipt.totalAmount.toFixed(2)}</span>
+                    <span>{formatINR(completedOrderReceipt.totalAmount)}</span>
                   </div>
                 </div>
               </div>
@@ -140,7 +140,7 @@ export const PaymentModal = () => {
               <div style={{ background: 'linear-gradient(135deg, #1e293b, #0f172a)', color: 'white', padding: '1.25rem', borderRadius: 'var(--radius-md)', marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Total Payable Amount</div>
-                  <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#f59e0b' }}>${totalAmount.toFixed(2)}</div>
+                  <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#f59e0b' }}>{formatINR(totalAmount)}</div>
                 </div>
                 <div style={{ fontSize: '0.8rem', background: 'rgba(255, 255, 255, 0.1)', padding: '0.4rem 0.8rem', borderRadius: '6px' }}>
                   Pitch Demo Gateway
@@ -299,7 +299,7 @@ export const PaymentModal = () => {
                   </>
                 ) : (
                   <>
-                    <CheckCircle size={18} /> Pay ${totalAmount.toFixed(2)} & Place Order
+                    <CheckCircle size={18} /> Pay {formatINR(totalAmount)} & Place Order
                   </>
                 )}
               </button>

@@ -1,11 +1,9 @@
 import React from 'react';
-import { useApp } from '../../context/AppContext';
+import { useApp, formatINR } from '../../context/AppContext';
 import {
   Clock,
   CheckCircle,
-  AlertCircle,
   ChefHat,
-  ArrowRight,
   Bell,
   Utensils,
   MapPin
@@ -58,7 +56,7 @@ export const POSDashboard = () => {
                           <h4 style={{ fontSize: '1.1rem', color: '#60a5fa' }}>#{order.id}</h4>
                         </div>
                         <span style={{ fontWeight: 800, fontSize: '1.05rem', color: '#f59e0b' }}>
-                          ${order.totalAmount.toFixed(2)}
+                          {formatINR(order.totalAmount)}
                         </span>
                       </div>
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useApp } from '../../context/AppContext';
-import { UtensilsCrossed, Plus, Star, ToggleLeft, ToggleRight, Check, X } from 'lucide-react';
+import { useApp, formatINR } from '../../context/AppContext';
+import { Plus, X } from 'lucide-react';
 
 export const MenuAdmin = () => {
   const { menuItems, toggleDishAvailability, addDish } = useApp();
@@ -9,7 +9,7 @@ export const MenuAdmin = () => {
   // Form states
   const [dishName, setDishName] = useState('');
   const [category, setCategory] = useState('Main Course');
-  const [price, setPrice] = useState('19.99');
+  const [price, setPrice] = useState('499');
   const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80');
   const [prepTime, setPrepTime] = useState('15 min');
@@ -74,7 +74,7 @@ export const MenuAdmin = () => {
                   </div>
                 </td>
                 <td style={{ padding: '1rem', color: '#60a5fa', fontWeight: 600 }}>{dish.category}</td>
-                <td style={{ padding: '1rem', fontWeight: 800, color: '#f59e0b' }}>${dish.price.toFixed(2)}</td>
+                <td style={{ padding: '1rem', fontWeight: 800, color: '#f59e0b' }}>{formatINR(dish.price)}</td>
                 <td style={{ padding: '1rem', color: '#cbd5e1' }}>{dish.prepTime}</td>
                 <td style={{ padding: '1rem' }}>
                   <span
@@ -153,13 +153,62 @@ export const MenuAdmin = () => {
                   </div>
 
                   <div>
-                    <label style={{ fontSize: '0.82rem', color: '#94a3b8' }}>Price ($)</label>
+                    <label style={{ fontSize: '0.82rem', color: '#94a3b8' }}>Price (₹)</label>
                     <input
                       type="number"
-                      step="0.01"
+                      step="1"
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
                       required
+                      style={{ width: '100%', padding: '0.65rem', borderRadius: '6px', border: '1px solid #334155', background: '#0f172a', color: 'white' }}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                  <div>
+                    <label style={{ fontSize: '0.82rem', color: '#94a3b8' }}>Dietary</label>
+                    <select
+                      value={dietary}
+                      onChange={(e) => setDietary(e.target.value)}
+                      style={{ width: '100%', padding: '0.65rem', borderRadius: '6px', border: '1px solid #334155', background: '#0f172a', color: 'white' }}
+                    >
+                      {['Veg', 'Non-Veg', 'Gluten-Free', 'Spicy'].map(d => (
+                        <option key={d} value={d}>{d}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ fontSize: '0.82rem', color: '#94a3b8' }}>Prep Time</label>
+                    <input
+                      type="text"
+                      value={prepTime}
+                      onChange={(e) => setPrepTime(e.target.value)}
+                      required
+                      style={{ width: '100%', padding: '0.65rem', borderRadius: '6px', border: '1px solid #334155', background: '#0f172a', color: 'white' }}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div>
+                    <label style={{ fontSize: '0.82rem', color: '#94a3b8' }}>Dietary</label>
+                    <select
+                      value={dietary}
+                      onChange={(e) => setDietary(e.target.value)}
+                      style={{ width: '100%', padding: '0.65rem', borderRadius: '6px', border: '1px solid #334155', background: '#0f172a', color: 'white' }}
+                    >
+                      {['Veg', 'Non-Veg', 'Gluten-Free', 'Spicy'].map(d => (
+                        <option key={d} value={d}>{d}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ fontSize: '0.82rem', color: '#94a3b8' }}>Prep Time</label>
+                    <input
+                      type="text"
+                      value={prepTime}
+                      onChange={(e) => setPrepTime(e.target.value)}
                       style={{ width: '100%', padding: '0.65rem', borderRadius: '6px', border: '1px solid #334155', background: '#0f172a', color: 'white' }}
                     />
                   </div>

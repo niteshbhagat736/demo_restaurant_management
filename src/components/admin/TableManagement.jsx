@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
-import { LayoutGrid, User, CheckCircle, Clock, AlertTriangle, Calendar } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 
 export const TableManagement = () => {
   const { tables, updateTableStatus } = useApp();

@@ -1,11 +1,12 @@
 // Mock Data for GourmetPulse Restaurant & Management System Demo
+// All prices are in Indian Rupees (INR).
 
 export const INITIAL_MENU_ITEMS = [
   {
     id: "dish-1",
     name: "Truffle & Wild Mushroom Tagliatelle",
     category: "Main Course",
-    price: 24.99,
+    price: 695,
     rating: 4.9,
     prepTime: "15 min",
     calories: "620 kcal",
@@ -19,7 +20,7 @@ export const INITIAL_MENU_ITEMS = [
     id: "dish-2",
     name: "Prime Wagyu Gourmet Burger",
     category: "Main Course",
-    price: 22.50,
+    price: 875,
     rating: 4.8,
     prepTime: "12 min",
     calories: "850 kcal",
@@ -33,7 +34,7 @@ export const INITIAL_MENU_ITEMS = [
     id: "dish-3",
     name: "Artisanal Wood-Fired Margherita",
     category: "Gourmet Pizzas",
-    price: 18.99,
+    price: 549,
     rating: 4.9,
     prepTime: "10 min",
     calories: "710 kcal",
@@ -47,7 +48,7 @@ export const INITIAL_MENU_ITEMS = [
     id: "dish-4",
     name: "Charred Tomahawk Ribeye Steak",
     category: "Chef Specials",
-    price: 48.00,
+    price: 2799,
     rating: 5.0,
     prepTime: "25 min",
     calories: "980 kcal",
@@ -61,7 +62,7 @@ export const INITIAL_MENU_ITEMS = [
     id: "dish-5",
     name: "Omakase Dragon Sushi Roll",
     category: "Starters",
-    price: 19.50,
+    price: 595,
     rating: 4.7,
     prepTime: "15 min",
     calories: "450 kcal",
@@ -75,7 +76,7 @@ export const INITIAL_MENU_ITEMS = [
     id: "dish-6",
     name: "Crispy Birria Beef Tacos",
     category: "Starters",
-    price: 16.50,
+    price: 475,
     rating: 4.8,
     prepTime: "12 min",
     calories: "580 kcal",
@@ -89,7 +90,7 @@ export const INITIAL_MENU_ITEMS = [
     id: "dish-7",
     name: "Avocado & Burrata Salad Bowl",
     category: "Starters",
-    price: 15.99,
+    price: 445,
     rating: 4.6,
     prepTime: "8 min",
     calories: "390 kcal",
@@ -103,7 +104,7 @@ export const INITIAL_MENU_ITEMS = [
     id: "dish-8",
     name: "Classic Venetian Tiramisu",
     category: "Desserts",
-    price: 11.50,
+    price: 325,
     rating: 4.9,
     prepTime: "5 min",
     calories: "410 kcal",
@@ -117,7 +118,7 @@ export const INITIAL_MENU_ITEMS = [
     id: "dish-9",
     name: "Molten Valrhona Chocolate Lava",
     category: "Desserts",
-    price: 12.99,
+    price: 375,
     rating: 4.9,
     prepTime: "10 min",
     calories: "520 kcal",
@@ -131,7 +132,7 @@ export const INITIAL_MENU_ITEMS = [
     id: "dish-10",
     name: "Smoked Hibiscus & Passionfruit Fizz",
     category: "Drinks",
-    price: 9.99,
+    price: 275,
     rating: 4.8,
     prepTime: "5 min",
     calories: "140 kcal",
@@ -170,11 +171,11 @@ export const INITIAL_ORDERS = [
     customerName: "Alex Vance",
     type: "Dine-In",
     items: [
-      { id: "dish-1", name: "Truffle & Wild Mushroom Tagliatelle", quantity: 1, price: 24.99, notes: "Extra parmesan" },
-      { id: "dish-10", name: "Smoked Hibiscus & Passionfruit Fizz", quantity: 2, price: 9.99 }
+      { id: "dish-1", name: "Truffle & Wild Mushroom Tagliatelle", quantity: 1, price: 695, notes: "Extra parmesan" },
+      { id: "dish-10", name: "Smoked Hibiscus & Passionfruit Fizz", quantity: 2, price: 275 }
     ],
-    totalAmount: 44.97,
-    status: "Preparing", // New, Preparing, Ready, Completed
+    totalAmount: 1375.50,
+    status: "Preparing",
     createdAt: "10:42 AM",
     paymentStatus: "Paid (Card)",
     chefAssigned: "Chef Antoine Laurent"
@@ -185,10 +186,10 @@ export const INITIAL_ORDERS = [
     customerName: "Sophia Martinez",
     type: "Dine-In",
     items: [
-      { id: "dish-4", name: "Charred Tomahawk Ribeye Steak", quantity: 1, price: 48.00, notes: "Medium Rare" },
-      { id: "dish-3", name: "Artisanal Wood-Fired Margherita", quantity: 1, price: 18.99 }
+      { id: "dish-4", name: "Charred Tomahawk Ribeye Steak", quantity: 1, price: 2799, notes: "Medium Rare" },
+      { id: "dish-3", name: "Artisanal Wood-Fired Margherita", quantity: 1, price: 549 }
     ],
-    totalAmount: 66.99,
+    totalAmount: 3685.80,
     status: "New",
     createdAt: "10:51 AM",
     paymentStatus: "Paid (UPI QR)",
@@ -200,13 +201,13 @@ export const INITIAL_ORDERS = [
     customerName: "Liam Hemsworth",
     type: "Takeaway / Digital",
     items: [
-      { id: "dish-2", name: "Prime Wagyu Gourmet Burger", quantity: 2, price: 22.50 },
-      { id: "dish-8", name: "Classic Venetian Tiramisu", quantity: 1, price: 11.50 }
+      { id: "dish-2", name: "Prime Wagyu Gourmet Burger", quantity: 2, price: 875 },
+      { id: "dish-8", name: "Classic Venetian Tiramisu", quantity: 1, price: 325 }
     ],
-    totalAmount: 56.50,
+    totalAmount: 2282.50,
     status: "Ready",
     createdAt: "10:30 AM",
-    paymentStatus: "Paid (Apple Pay)",
+    paymentStatus: "Paid (UPI QR)",
     chefAssigned: "Chef Antoine Laurent"
   }
 ];
@@ -214,9 +215,9 @@ export const INITIAL_ORDERS = [
 export const INITIAL_RESERVATIONS = [
   {
     id: "RES-901",
-    name: "Harrison Ford",
-    email: "h.ford@example.com",
-    phone: "+1 (555) 234-5678",
+    name: "Arjun Sharma",
+    email: "arjun.sharma@example.com",
+    phone: "+91 98765 43210",
     guests: 4,
     date: "2026-09-22",
     time: "07:30 PM",
@@ -226,9 +227,9 @@ export const INITIAL_RESERVATIONS = [
   },
   {
     id: "RES-902",
-    name: "Amelia Watson",
-    email: "amelia@example.com",
-    phone: "+1 (555) 987-6543",
+    name: "Priya Mehta",
+    email: "priya.mehta@example.com",
+    phone: "+91 87654 32109",
     guests: 2,
     date: "2026-09-22",
     time: "08:15 PM",

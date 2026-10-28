@@ -5,7 +5,6 @@ import {
   ShoppingBag,
   Calendar,
   Clock,
-  LayoutDashboard,
   ChefHat,
   Sparkles,
   Menu,

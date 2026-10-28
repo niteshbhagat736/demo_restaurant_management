@@ -9,7 +9,8 @@ export const CartDrawer = () => {
     updateCartQuantity,
     isCartOpen,
     setIsCartOpen,
-    setIsPaymentModalOpen
+    setIsPaymentModalOpen,
+    formatINR
   } = useApp();
 
   const [tableNo, setTableNo] = useState('Table 02');
@@ -114,7 +115,7 @@ export const CartDrawer = () => {
                   <div style={{ flex: 1 }}>
                     <h4 style={{ fontSize: '0.95rem', fontWeight: 700 }}>{item.name}</h4>
                     <div style={{ fontSize: '0.85rem', color: 'var(--color-primary-hover)', fontWeight: 800 }}>
-                      ${(item.price * item.quantity).toFixed(2)}
+                      {formatINR(item.price * item.quantity)}
                     </div>
                     {item.notes && (
                       <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
@@ -173,21 +174,21 @@ export const CartDrawer = () => {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '0.9rem', marginBottom: '0.75rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)' }}>
                 <span>Subtotal</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span>{formatINR(subtotal)}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)' }}>
                 <span>Tax & Service Charge (10%)</span>
-                <span>${tax.toFixed(2)}</span>
+                <span>{formatINR(tax)}</span>
               </div>
               {selectedTipPercent > 0 && (
                 <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)' }}>
                   <span>Staff Tip ({selectedTipPercent}%)</span>
-                  <span>${tipAmount.toFixed(2)}</span>
+                  <span>{formatINR(tipAmount)}</span>
                 </div>
               )}
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-main)', paddingTop: '0.5rem', borderTop: '1px solid var(--border-light)' }}>
                 <span>Grand Total</span>
-                <span>${grandTotal.toFixed(2)}</span>
+                <span>{formatINR(grandTotal)}</span>
               </div>
             </div>
 
@@ -196,7 +197,7 @@ export const CartDrawer = () => {
               style={{ width: '100%', justifyContent: 'center' }}
               onClick={() => setIsPaymentModalOpen(true)}
             >
-              Proceed to Integrated Payment <ArrowRight size={18} />
+              Proceed to Integrated Payment ({formatINR(grandTotal)}) <ArrowRight size={18} />
             </button>
           </div>
         )}

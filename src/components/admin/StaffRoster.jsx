@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
-import { Users, Star, Clock, ShieldCheck } from 'lucide-react';
+import { Star } from 'lucide-react';
 
 export const StaffRoster = () => {
   const { staff, updateStaffStatus } = useApp();

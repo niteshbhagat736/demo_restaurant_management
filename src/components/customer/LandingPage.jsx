@@ -12,7 +12,7 @@ import {
   CheckCircle2,
   TrendingUp,
   Clock,
-  DollarSign,
+  IndianRupee,
   ShieldCheck,
   Zap,
   ShoppingBag,
@@ -20,9 +20,7 @@ import {
   Award,
   Wine,
   Leaf,
-  Users,
-  MapPin,
-  PlayCircle
+  Users
 } from 'lucide-react';
 
 // Parallax hook
@@ -77,7 +75,7 @@ const RevealSection = ({ children, delay = 0, style = {}, className = '' }) => {
 };
 
 export const LandingPage = () => {
-  const { setCurrentView, menuItems, addToCart, setIsCartOpen } = useApp();
+  const { setCurrentView, menuItems, addToCart, setIsCartOpen, formatINR } = useApp();
   const heroParallaxRef = useParallax(0.3);
   const chefParallaxRef = useParallax(0.25);
   const ctaParallaxRef = useParallax(0.2);
@@ -225,7 +223,7 @@ export const LandingPage = () => {
               bg: 'linear-gradient(135deg,#fef3c7,#fffbeb)', border: '#fcd34d'
             },
             {
-              icon: DollarSign, value: '0% Fees', label: 'No 3rd-Party Cut',
+              icon: IndianRupee, value: '0% Fees', label: 'No 3rd-Party Cut',
               sub: '100% margins retained', color: '#10b981',
               bg: 'linear-gradient(135deg,#d1fae5,#ecfdf5)', border: '#6ee7b7'
             },
@@ -522,7 +520,7 @@ export const LandingPage = () => {
                     <span>• {dish.calories}</span>
                   </div>
                   <div className="dish-footer">
-                    <div className="dish-price">${dish.price.toFixed(2)}</div>
+                    <div className="dish-price">{formatINR(dish.price)}</div>
                     <button className="add-btn" onClick={() => { addToCart(dish); setIsCartOpen(true); }}>
                       <ShoppingBag size={15} /> Add to Order
                     </button>

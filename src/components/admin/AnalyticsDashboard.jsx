@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import {
-  TrendingUp, DollarSign, Utensils, Users, Zap,
-  ShoppingBag, Clock, Star, ChefHat, BarChart3,
+  TrendingUp, IndianRupee, Users, Zap,
+  ShoppingBag, Clock, Star, ChefHat,
   PieChart, Activity, QrCode, MapPin, CheckCircle2,
   AlertCircle, Loader, Package
 } from 'lucide-react';
-
-/* ── Rupee formatter ─────────────────────────────────────── */
-const INR = (v) => `₹${Number(v).toFixed(2)}`;
 
 /* ── Mock hourly/weekly data ─────────────────────────────── */
 const hourlyData = [
@@ -175,17 +172,24 @@ const BarChart = ({ data }) => {
 /* ── Donut Chart ─────────────────────────────────────────── */
 const DonutChart = ({ data }) => {
   const R = 70, r = 44, cx = 90, cy = 90;
-  let cum = -Math.PI / 2;
-  const slices = data.map(d => {
+  let runningAngle = -Math.PI / 2;
+  const slices = [];
+  for (const d of data) {
     const a = (d.value / 100) * 2 * Math.PI;
-    const x1 = cx + R * Math.cos(cum), y1 = cy + R * Math.sin(cum);
-    cum += a;
-    const x2 = cx + R * Math.cos(cum), y2 = cy + R * Math.sin(cum);
-    const xi1 = cx + r * Math.cos(cum - a), yi1 = cy + r * Math.sin(cum - a);
-    const xi2 = cx + r * Math.cos(cum), yi2 = cy + r * Math.sin(cum);
+    const startAngle = runningAngle;
+    const endAngle = runningAngle + a;
+    runningAngle = endAngle;
+
+    const x1 = cx + R * Math.cos(startAngle), y1 = cy + R * Math.sin(startAngle);
+    const x2 = cx + R * Math.cos(endAngle), y2 = cy + R * Math.sin(endAngle);
+    const xi1 = cx + r * Math.cos(startAngle), yi1 = cy + r * Math.sin(startAngle);
+    const xi2 = cx + r * Math.cos(endAngle), yi2 = cy + r * Math.sin(endAngle);
     const lg = a > Math.PI ? 1 : 0;
-    return { ...d, path: `M${x1.toFixed(2)},${y1.toFixed(2)} A${R},${R},0,${lg},1,${x2.toFixed(2)},${y2.toFixed(2)} L${xi2.toFixed(2)},${yi2.toFixed(2)} A${r},${r},0,${lg},0,${xi1.toFixed(2)},${yi1.toFixed(2)} Z` };
-  });
+    slices.push({
+      ...d,
+      path: `M${x1.toFixed(2)},${y1.toFixed(2)} A${R},${R},0,${lg},1,${x2.toFixed(2)},${y2.toFixed(2)} L${xi2.toFixed(2)},${yi2.toFixed(2)} A${r},${r},0,${lg},0,${xi1.toFixed(2)},${yi1.toFixed(2)} Z`
+    });
+  }
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
       <svg width="180" height="180" viewBox="0 0 180 180" style={{ flexShrink: 0 }}>
@@ -241,7 +245,7 @@ const SH = ({ icon, label }) => (
 
 /* ── Main Dashboard ──────────────────────────────────────── */
 export const AnalyticsDashboard = () => {
-  const { orders, tables, reservations } = useApp();
+  const { orders, tables } = useApp();
   const [chart, setChart] = useState('hourly');
   const [selectedOrder, setSelectedOrder] = useState(null);
 
@@ -318,7 +322,7 @@ export const AnalyticsDashboard = () => {
 
       {/* KPIs */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(185px, 1fr))', gap: '1rem' }}>
-        <KPICard icon={DollarSign} iconColor="#f59e0b" iconBg="rgba(245,158,11,0.15)"
+        <KPICard icon={IndianRupee} iconColor="#f59e0b" iconBg="rgba(245,158,11,0.15)"
           label="Today's Gross Revenue" value={`₹${(liveRevenue / 1000).toFixed(1)}k`}
           sub={<><TrendingUp size={12} /> +18.4% vs yesterday</>} subColor="#6ee7b7" badge="Live" />
         <KPICard icon={ShoppingBag} iconColor="#3b82f6" iconBg="rgba(59,130,246,0.15)"

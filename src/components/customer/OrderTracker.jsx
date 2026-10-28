@@ -1,28 +1,49 @@
-import React from 'react';
-import { useApp } from '../../context/AppContext';
+import React, { useEffect, useState } from 'react';
+import { useApp, formatINR } from '../../context/AppContext';
 import {
-  Clock,
-  ChefHat,
-  CheckCircle,
-  Utensils,
-  Sparkles,
-  ArrowRight,
-  Flame,
-  ShoppingBag
+  Clock, ChefHat, CheckCircle,
+  Sparkles, ArrowRight, ShoppingBag
 } from 'lucide-react';
+
+// Sanitise and validate an order-ID param — alphanumeric, dash, max 20 chars
+const sanitiseOrderId = (raw) => {
+  if (!raw) return null;
+  const cleaned = String(raw).replace(/[^a-zA-Z0-9-]/g, '').slice(0, 20);
+  return cleaned || null;
+};
 
 export const OrderTracker = () => {
   const { orders, latestPlacedOrder, setCurrentView } = useApp();
 
-  const activeOrder = latestPlacedOrder || orders[0];
+  // ── Task 4: read order id from URL param ─────────────────────────────────
+  const [trackedOrderId, setTrackedOrderId] = useState(() => {
+    const p = new URLSearchParams(window.location.search);
+    return sanitiseOrderId(p.get('order'));
+  });
+
+  const currentOrderId = trackedOrderId || latestPlacedOrder?.id;
+
+  // Resolve which order to display
+  const activeOrder = currentOrderId
+    ? (orders.find(o => o.id === currentOrderId) || orders[0])
+    : (latestPlacedOrder || orders[0]);
+
+  // Push active order ID to URL
+  useEffect(() => {
+    if (!currentOrderId) return;
+    const url = new URL(window.location.href);
+    url.searchParams.set('view', 'order-tracker');
+    url.searchParams.set('order', currentOrderId);
+    window.history.replaceState({}, '', url.toString());
+  }, [currentOrderId]);
 
   const getStepIndex = (status) => {
     switch (status) {
-      case 'New': return 1;
+      case 'New':       return 1;
       case 'Preparing': return 2;
-      case 'Ready': return 3;
+      case 'Ready':     return 3;
       case 'Completed': return 4;
-      default: return 1;
+      default:          return 1;
     }
   };
 
@@ -39,6 +60,31 @@ export const OrderTracker = () => {
         <p style={{ color: '#94a3b8', fontSize: '1rem', marginTop: '0.4rem' }}>
           Real-time transmission between your table menu and Chef's Kitchen Display System.
         </p>
+
+        {/* Recent orders selector (if multiple orders available) */}
+        {orders.length > 1 && (
+          <div style={{ marginTop: '1.25rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+            {orders.slice(0, 5).map(o => (
+              <button
+                key={o.id}
+                onClick={() => setTrackedOrderId(o.id)}
+                style={{
+                  padding: '0.3rem 0.75rem',
+                  borderRadius: 'var(--radius-full)',
+                  border: `1.5px solid ${activeOrder?.id === o.id ? '#f59e0b' : 'rgba(255,255,255,0.2)'}`,
+                  background: activeOrder?.id === o.id ? 'rgba(245,158,11,0.2)' : 'transparent',
+                  color: activeOrder?.id === o.id ? '#fde047' : '#94a3b8',
+                  fontSize: '0.8rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease',
+                }}
+              >
+                #{o.id}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {!activeOrder ? (
@@ -74,24 +120,20 @@ export const OrderTracker = () => {
                   { step: 3, title: 'Plated & Ready', desc: 'Quality checked' },
                   { step: 4, title: 'Served at Table', desc: 'Enjoy your meal!' }
                 ].map((item) => {
-                  const isDone = currentStep >= item.step;
+                  const isDone    = currentStep >= item.step;
                   const isCurrent = currentStep === item.step;
                   return (
                     <div key={item.step} style={{ textAlign: 'center', flex: 1, position: 'relative' }}>
                       <div
                         style={{
-                          width: '48px',
-                          height: '48px',
-                          borderRadius: '50%',
+                          width: '48px', height: '48px', borderRadius: '50%',
                           background: isDone ? 'linear-gradient(135deg, var(--color-primary), var(--color-accent))' : '#f1f5f9',
                           color: isDone ? 'white' : '#94a3b8',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          margin: '0 auto 0.75rem',
-                          fontWeight: 800,
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          margin: '0 auto 0.75rem', fontWeight: 800,
                           boxShadow: isCurrent ? 'var(--shadow-glow)' : 'none',
-                          border: isCurrent ? '3px solid #f59e0b' : 'none'
+                          border: isCurrent ? '3px solid #f59e0b' : 'none',
+                          transition: 'all 0.3s ease',
                         }}
                       >
                         {isDone ? <CheckCircle size={24} /> : item.step}
@@ -112,7 +154,7 @@ export const OrderTracker = () => {
             <div style={{ background: '#fffbeb', border: '1px solid #fde047', padding: '1.25rem', borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <ChefHat size={36} color="#d97706" />
               <div>
-                <h4 style={{ color: '#92400e', fontSize: '1.05rem' }}>Estimated Serving Time: ~12-15 Minutes</h4>
+                <h4 style={{ color: '#92400e', fontSize: '1.05rem' }}>Estimated Serving Time: ~12–15 Minutes</h4>
                 <p style={{ color: '#b45309', fontSize: '0.88rem', marginTop: '0.2rem' }}>
                   {activeOrder.chefAssigned} is currently preparing your meal using oak-fired cooking techniques.
                 </p>
@@ -130,17 +172,24 @@ export const OrderTracker = () => {
               {activeOrder.items.map(item => (
                 <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
-                    <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>{item.quantity}x {item.name}</div>
+                    <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>{item.quantity}× {item.name}</div>
                     {item.notes && <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Note: {item.notes}</div>}
                   </div>
-                  <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>${(item.price * item.quantity).toFixed(2)}</div>
+                  <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>{formatINR(item.price * item.quantity)}</div>
                 </div>
               ))}
             </div>
 
             <div style={{ borderTop: '1px dashed var(--border-light)', paddingTop: '1rem', display: 'flex', justifyContent: 'space-between', fontWeight: 800, fontSize: '1.2rem' }}>
               <span>Total Paid</span>
-              <span>${activeOrder.totalAmount.toFixed(2)}</span>
+              <span>{formatINR(activeOrder.totalAmount)}</span>
+            </div>
+
+            <div style={{ marginTop: '0.5rem', display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+              <span>{activeOrder.paymentStatus}</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
+                <Clock size={12} /> {activeOrder.createdAt}
+              </span>
             </div>
 
             <div style={{ marginTop: '1.5rem' }}>

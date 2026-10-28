@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import {
   Calendar as CalendarIcon,
@@ -8,7 +8,6 @@ import {
   CheckCircle2,
   Sparkles,
   QrCode,
-  MapPin,
   UtensilsCrossed,
   Wine,
   Gift,
@@ -16,21 +15,36 @@ import {
   Heart,
   Mail,
   Phone,
-  ArrowRight,
   ShieldCheck,
   Check,
-  ChevronRight,
   PartyPopper
 } from 'lucide-react';
+
+const VALID_ZONES = new Set([
+  'Main Dining Hall',
+  'Garden Patio Terrace',
+  'Romantic Velvet Booth',
+  'VIP Private Lounge'
+]);
+
+const readReservationParams = () => {
+  const p = new URLSearchParams(window.location.search);
+  const guests = parseInt(p.get('guests'), 10);
+  const zone = p.get('zone');
+  return {
+    guests: (guests >= 1 && guests <= 8) ? guests : 2,
+    zone: VALID_ZONES.has(zone) ? zone : 'Main Dining Hall',
+  };
+};
 
 export const TableBooking = () => {
   const { addReservation, setCurrentView } = useApp();
 
-  const [guestCount, setGuestCount] = useState(2);
+  const [guestCount, setGuestCount] = useState(() => readReservationParams().guests);
   const [dateType, setDateType] = useState('today');
   const [selectedDate, setSelectedDate] = useState('2026-09-22');
   const [selectedTime, setSelectedTime] = useState('07:30 PM');
-  const [selectedZone, setSelectedZone] = useState('Main Dining Hall');
+  const [selectedZone, setSelectedZone] = useState(() => readReservationParams().zone);
   const [guestName, setGuestName] = useState('');
   const [guestEmail, setGuestEmail] = useState('');
   const [guestPhone, setGuestPhone] = useState('');
@@ -38,6 +52,17 @@ export const TableBooking = () => {
   const [selectedOccasions, setSelectedOccasions] = useState([]);
 
   const [confirmedReservation, setConfirmedReservation] = useState(null);
+
+  // Sync state to URL params for shareable booking links
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('view', 'reservation');
+    if (guestCount !== 2) url.searchParams.set('guests', guestCount);
+    else url.searchParams.delete('guests');
+    if (selectedZone !== 'Main Dining Hall') url.searchParams.set('zone', selectedZone);
+    else url.searchParams.delete('zone');
+    window.history.replaceState({}, '', url.toString());
+  }, [guestCount, selectedZone]);
 
   const timeSlots = [
     '05:30 PM', '06:00 PM', '06:30 PM', '07:00 PM',

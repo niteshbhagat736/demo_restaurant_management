@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import {
   INITIAL_MENU_ITEMS,
   INITIAL_TABLES,
@@ -7,7 +7,11 @@ import {
   INITIAL_RESERVATIONS
 } from '../data/mockData';
 
+import { formatINR } from '../utils/currency';
+
 const AppContext = createContext();
+
+export { formatINR };
 
 export const AppProvider = ({ children }) => {
   // Navigation State
@@ -53,39 +57,20 @@ export const AppProvider = ({ children }) => {
   const [notification, setNotification] = useState(null);
 
   // Sync to LocalStorage
-  useEffect(() => {
-    localStorage.setItem('gourmet_menu', JSON.stringify(menuItems));
-  }, [menuItems]);
+  useEffect(() => { localStorage.setItem('gourmet_menu', JSON.stringify(menuItems)); }, [menuItems]);
+  useEffect(() => { localStorage.setItem('gourmet_cart', JSON.stringify(cart)); }, [cart]);
+  useEffect(() => { localStorage.setItem('gourmet_orders', JSON.stringify(orders)); }, [orders]);
+  useEffect(() => { localStorage.setItem('gourmet_reservations', JSON.stringify(reservations)); }, [reservations]);
+  useEffect(() => { localStorage.setItem('gourmet_tables', JSON.stringify(tables)); }, [tables]);
+  useEffect(() => { localStorage.setItem('gourmet_staff', JSON.stringify(staff)); }, [staff]);
 
-  useEffect(() => {
-    localStorage.setItem('gourmet_cart', JSON.stringify(cart));
-  }, [cart]);
-
-  useEffect(() => {
-    localStorage.setItem('gourmet_orders', JSON.stringify(orders));
-  }, [orders]);
-
-  useEffect(() => {
-    localStorage.setItem('gourmet_reservations', JSON.stringify(reservations));
-  }, [reservations]);
-
-  useEffect(() => {
-    localStorage.setItem('gourmet_tables', JSON.stringify(tables));
-  }, [tables]);
-
-  useEffect(() => {
-    localStorage.setItem('gourmet_staff', JSON.stringify(staff));
-  }, [staff]);
-
-  const showToast = (message, type = 'success') => {
+  const showToast = useCallback((message, type = 'success') => {
     setNotification({ message, type, id: Date.now() });
-    setTimeout(() => {
-      setNotification(null);
-    }, 4500);
-  };
+    setTimeout(() => setNotification(null), 4500);
+  }, []);
 
   // Cart Functions
-  const addToCart = (dish, quantity = 1, options = {}, notes = "") => {
+  const addToCart = (dish, quantity = 1, options = {}, notes = '') => {
     setCart(prevCart => {
       const existingIndex = prevCart.findIndex(item => item.id === dish.id);
       if (existingIndex > -1) {
@@ -104,37 +89,35 @@ export const AppProvider = ({ children }) => {
   };
 
   const updateCartQuantity = (dishId, delta) => {
-    setCart(prevCart => {
-      return prevCart.map(item => {
+    setCart(prevCart =>
+      prevCart.map(item => {
         if (item.id === dishId) {
           const newQty = item.quantity + delta;
           return newQty > 0 ? { ...item, quantity: newQty } : null;
         }
         return item;
-      }).filter(Boolean);
-    });
+      }).filter(Boolean)
+    );
   };
 
-  const clearCart = () => {
-    setCart([]);
-  };
+  const clearCart = () => setCart([]);
 
-  // Order Placement Function
+  // Order Placement
   const placeOrder = (paymentDetails = {}) => {
     if (cart.length === 0) return null;
 
     const totalAmount = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
     const newOrder = {
       id: `ORD-${Math.floor(100 + Math.random() * 900)}`,
-      tableNo: paymentDetails.tableNo || "Digital Order / Takeaway",
-      customerName: paymentDetails.customerName || "Guest Customer",
-      type: paymentDetails.orderType || "Digital Order",
+      tableNo: paymentDetails.tableNo || 'Digital Order / Takeaway',
+      customerName: paymentDetails.customerName || 'Guest Customer',
+      type: paymentDetails.orderType || 'Digital Order',
       items: [...cart],
-      totalAmount: +(totalAmount * 1.1).toFixed(2), // including 10% tax/service
-      status: "New",
+      totalAmount: +(totalAmount * 1.1).toFixed(2), // 10% tax/service
+      status: 'New',
       createdAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       paymentStatus: `Paid (${paymentDetails.method || 'Digital'})`,
-      chefAssigned: "Chef Antoine Laurent"
+      chefAssigned: 'Chef Antoine Laurent'
     };
 
     setOrders(prev => [newOrder, ...prev]);
@@ -142,7 +125,6 @@ export const AppProvider = ({ children }) => {
     clearCart();
     setIsPaymentModalOpen(false);
     setIsCartOpen(false);
-
     showToast(`Order #${newOrder.id} placed successfully! Transmitted to Kitchen POS.`, 'success');
     return newOrder;
   };
@@ -155,16 +137,11 @@ export const AppProvider = ({ children }) => {
 
   const toggleDishAvailability = (dishId) => {
     setMenuItems(prev => prev.map(d => d.id === dishId ? { ...d, isAvailable: !d.isAvailable } : d));
-    showToast(`Updated menu stock status`);
+    showToast('Updated menu stock status');
   };
 
   const addDish = (newDish) => {
-    const dishWithId = {
-      ...newDish,
-      id: `dish-${Date.now()}`,
-      rating: 5.0,
-      isAvailable: true
-    };
+    const dishWithId = { ...newDish, id: `dish-${Date.now()}`, rating: 5.0, isAvailable: true };
     setMenuItems(prev => [dishWithId, ...prev]);
     showToast(`Added ${newDish.name} to menu!`);
   };
@@ -173,7 +150,7 @@ export const AppProvider = ({ children }) => {
     const newRes = {
       ...reservationData,
       id: `RES-${Math.floor(100 + Math.random() * 900)}`,
-      status: "Confirmed"
+      status: 'Confirmed'
     };
     setReservations(prev => [newRes, ...prev]);
     showToast(`Table reserved for ${reservationData.name}! Confirmation generated.`);
@@ -219,7 +196,8 @@ export const AppProvider = ({ children }) => {
     updateStaffStatus,
     toggleDishAvailability,
     addDish,
-    notification
+    notification,
+    formatINR,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

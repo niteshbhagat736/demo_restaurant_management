@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { useApp } from "../../context/AppContext";
 import {
   Kanban, ChefHat, LayoutGrid, Users,
-  UtensilsCrossed, BarChart3, Sparkles,
+  UtensilsCrossed, BarChart3,
   ArrowLeft, Menu, X, TrendingUp, Bell
 } from "lucide-react";
 
 export const AdminLayout = ({ children }) => {
-  const { adminTab, setAdminTab, setCurrentView, orders } = useApp();
+  const { adminTab, setAdminTab, setCurrentView, orders, formatINR } = useApp();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   const newOrdersCount = orders.filter(o => o.status === "New").length;
@@ -54,7 +54,7 @@ export const AdminLayout = ({ children }) => {
     );
   };
 
-  const SidebarInner = ({ onNavClick }) => (
+  const renderSidebar = (onNavClick) => (
     <aside style={{
       width: "260px", minWidth: "260px",
       background: "#0a1120", borderRight: "1px solid #1e293b",
@@ -82,7 +82,7 @@ export const AdminLayout = ({ children }) => {
         }}>
           <div style={{ fontSize: "0.72rem", color: "#94a3b8", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Today's Revenue</div>
           <div style={{ fontSize: "1.55rem", fontWeight: 800, color: "#f59e0b", fontFamily: "var(--font-heading)", lineHeight: 1.2, marginTop: "0.2rem" }}>
-            Rs.{todayRevenue.toFixed(2)}
+            {formatINR(todayRevenue)}
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "0.3rem", fontSize: "0.75rem", color: "#6ee7b7", marginTop: "0.3rem", fontWeight: 600 }}>
             <TrendingUp size={13} /> +18.4% vs yesterday
@@ -189,7 +189,7 @@ export const AdminLayout = ({ children }) => {
       <div style={{ display: "flex", flex: 1, overflow: "hidden", minHeight: 0 }}>
         {/* Desktop Sidebar */}
         <div className="admin-sidebar-desktop">
-          <SidebarInner />
+          {renderSidebar()}
         </div>
 
         {/* Mobile Drawer Overlay */}
@@ -233,7 +233,7 @@ export const AdminLayout = ({ children }) => {
                   display: "flex", alignItems: "center", justifyContent: "space-between"
                 }}>
                   <div style={{ fontSize: "0.72rem", color: "#94a3b8", fontWeight: 700 }}>Today's Revenue</div>
-                  <div style={{ fontSize: "1.1rem", fontWeight: 800, color: "#f59e0b" }}>Rs.{todayRevenue.toFixed(2)}</div>
+                  <div style={{ fontSize: "1.1rem", fontWeight: 800, color: "#f59e0b" }}>{formatINR(todayRevenue)}</div>
                 </div>
               </div>
 

@@ -36,7 +36,7 @@ export const ChefKDS = () => {
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.5rem' }}>
-          {activeKitchenOrders.map((order, idx) => (
+          {activeKitchenOrders.map((order) => (
             <div
               key={order.id}
               style={{
