@@ -195,7 +195,10 @@ export const CartDrawer = () => {
             <button
               className="btn-primary"
               style={{ width: '100%', justifyContent: 'center' }}
-              onClick={() => setIsPaymentModalOpen(true)}
+              onClick={() => {
+                setIsCartOpen(false);
+                setIsPaymentModalOpen(true);
+              }}
             >
               Proceed to Integrated Payment ({formatINR(grandTotal)}) <ArrowRight size={18} />
             </button>

@@ -17,6 +17,7 @@ export const PaymentModal = () => {
   const {
     isPaymentModalOpen,
     setIsPaymentModalOpen,
+    setIsCartOpen,
     cart,
     placeOrder,
     setCurrentView,
@@ -32,6 +33,13 @@ export const PaymentModal = () => {
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [completedOrderReceipt, setCompletedOrderReceipt] = useState(null);
+
+  const handleCloseModal = () => {
+    setIsPaymentModalOpen(false);
+    if (!completedOrderReceipt) {
+      setIsCartOpen(true);
+    }
+  };
 
   if (!isPaymentModalOpen) return null;
 
@@ -54,7 +62,7 @@ export const PaymentModal = () => {
   };
 
   return (
-    <div className="modal-overlay" onClick={() => !isProcessing && setIsPaymentModalOpen(false)}>
+    <div className="modal-overlay payment-modal-overlay" onClick={() => !isProcessing && handleCloseModal()}>
       <div className="modal-card" style={{ maxWidth: '560px' }} onClick={(e) => e.stopPropagation()}>
         
         {/* Receipt View after successful simulated payment */}
@@ -132,7 +140,7 @@ export const PaymentModal = () => {
                 <ShieldCheck size={22} color="var(--color-success)" />
                 <h3 style={{ fontSize: '1.25rem' }}>Simulated Integrated Checkout</h3>
               </div>
-              <button className="icon-close-btn" onClick={() => setIsPaymentModalOpen(false)}><X size={18} /></button>
+              <button className="icon-close-btn" onClick={handleCloseModal}><X size={18} /></button>
             </div>
 
             <div className="modal-body">
@@ -282,7 +290,7 @@ export const PaymentModal = () => {
               <button
                 className="btn-secondary"
                 style={{ color: 'var(--text-main)', borderColor: 'var(--border-light)' }}
-                onClick={() => setIsPaymentModalOpen(false)}
+                onClick={handleCloseModal}
                 disabled={isProcessing}
               >
                 Cancel
