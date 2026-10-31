@@ -239,77 +239,118 @@ export const DigitalMenu = () => {
       {/* Dish Customization Modal */}
       {selectedDishModal && (
         <div
-          className="modal-overlay"
+          className="fixed inset-0 z-[2000] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/65 backdrop-blur-sm overflow-hidden"
           onClick={() => setSelectedDishModal(null)}
           role="dialog"
           aria-modal="true"
           aria-label={`Customise ${selectedDishModal.name}`}
         >
-          <div className="modal-card" onClick={(e) => e.stopPropagation()} data-lenis-prevent>
-            <div style={{ position: 'relative', height: '220px' }}>
-              <img src={selectedDishModal.image} alt={selectedDishModal.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <div
+            className="bg-white w-full max-w-full sm:max-w-lg max-h-[92dvh] sm:max-h-[88dvh] rounded-t-3xl sm:rounded-2xl flex flex-col shadow-2xl overflow-hidden animate-[modalPop_0.25s_cubic-bezier(0.16,1,0.3,1)]"
+            onClick={(e) => e.stopPropagation()}
+            data-lenis-prevent
+          >
+            {/* Modal Image Hero */}
+            <div className="relative h-44 sm:h-56 w-full shrink-0 overflow-hidden bg-slate-900">
+              <img
+                src={selectedDishModal.image}
+                alt={selectedDishModal.name}
+                className="w-full h-full object-cover"
+              />
               <button
-                style={{ position: 'absolute', top: '12px', right: '12px', background: 'white', border: 'none', borderRadius: '50%', width: '36px', height: '36px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-md)' }}
+                className="absolute top-3 right-3 bg-white/95 hover:bg-white text-slate-800 p-2 rounded-full shadow-md transition-all hover:scale-105 active:scale-95 flex items-center justify-center z-10 cursor-pointer"
                 onClick={() => setSelectedDishModal(null)}
                 aria-label="Close"
               >
-                <X size={18} color="var(--text-main)" />
+                <X size={18} />
               </button>
             </div>
 
-            <div className="modal-body">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
-                <h2 style={{ fontSize: '1.4rem' }}>{selectedDishModal.name}</h2>
-                <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-main)' }}>{formatINR(selectedDishModal.price)}</div>
+            {/* Scrollable Modal Body */}
+            <div className="p-4 sm:p-6 overflow-y-auto flex-1 min-h-0 space-y-4">
+              <div className="flex items-start justify-between gap-4">
+                <h2 className="text-xl sm:text-2xl font-bold text-slate-900 leading-tight">
+                  {selectedDishModal.name}
+                </h2>
+                <div className="text-xl sm:text-2xl font-extrabold text-amber-600 shrink-0">
+                  {formatINR(selectedDishModal.price)}
+                </div>
               </div>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '1.25rem' }}>
+
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
                 {selectedDishModal.description}
               </p>
 
               {/* Add-on options */}
-              <div style={{ background: 'var(--bg-surface)', padding: '1rem', borderRadius: 'var(--radius-md)', marginBottom: '1.25rem' }}>
-                <h4 style={{ fontSize: '0.95rem', marginBottom: '0.75rem' }}>Custom Options &amp; Add-ons</h4>
-                <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', fontSize: '0.9rem' }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3.5 sm:p-4">
+                <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-700 mb-2.5">
+                  Custom Options &amp; Add-ons
+                </h4>
+                <label className="flex items-center justify-between cursor-pointer text-sm text-slate-800 select-none py-1">
+                  <span className="flex items-center gap-2.5">
                     <input
                       type="checkbox"
                       checked={extraTopping}
                       onChange={(e) => setExtraTopping(e.target.checked)}
+                      className="w-4 h-4 rounded text-amber-500 focus:ring-amber-500 border-slate-300"
                     />
                     Extra Chef Truffle Oil &amp; Aged Parmesan
                   </span>
-                  <span style={{ fontWeight: 700 }}>+₹150</span>
+                  <span className="font-bold text-amber-600">+₹150</span>
                 </label>
               </div>
 
               {/* Special Instructions */}
-              <div style={{ marginBottom: '1.25rem' }}>
-                <h4 style={{ fontSize: '0.95rem', marginBottom: '0.5rem' }}>Special Preparation Notes</h4>
+              <div>
+                <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-700 mb-2">
+                  Special Preparation Notes
+                </h4>
                 <input
                   type="text"
                   placeholder="e.g. Less spicy, dressing on the side, no cutlery..."
                   value={customNotes}
                   onChange={(e) => setCustomNotes(e.target.value)}
-                  style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-light)', outline: 'none' }}
+                  className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none text-sm text-slate-800 placeholder:text-slate-400 transition-all"
                 />
               </div>
 
               {/* Quantity Selector */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontWeight: 700 }}>Quantity</span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                  <button className="qty-btn" onClick={() => setCustomQty(Math.max(1, customQty - 1))} aria-label="Decrease quantity">-</button>
-                  <span style={{ fontWeight: 800, width: '24px', textAlign: 'center' }}>{customQty}</span>
-                  <button className="qty-btn" onClick={() => setCustomQty(customQty + 1)} aria-label="Increase quantity">+</button>
+              <div className="flex items-center justify-between pt-1">
+                <span className="font-bold text-slate-800 text-sm sm:text-base">Quantity</span>
+                <div className="flex items-center gap-3">
+                  <button
+                    className="w-9 h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-100 flex items-center justify-center font-bold text-slate-800 active:scale-95 transition-all cursor-pointer"
+                    onClick={() => setCustomQty(Math.max(1, customQty - 1))}
+                    aria-label="Decrease quantity"
+                  >
+                    -
+                  </button>
+                  <span className="font-extrabold w-6 text-center text-slate-900 text-base sm:text-lg">
+                    {customQty}
+                  </span>
+                  <button
+                    className="w-9 h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-100 flex items-center justify-center font-bold text-slate-800 active:scale-95 transition-all cursor-pointer"
+                    onClick={() => setCustomQty(customQty + 1)}
+                    aria-label="Increase quantity"
+                  >
+                    +
+                  </button>
                 </div>
               </div>
             </div>
 
-            <div className="modal-footer">
-              <button className="btn-secondary" style={{ color: 'var(--text-main)', borderColor: 'var(--border-light)' }} onClick={() => setSelectedDishModal(null)}>
+            {/* Pinned Bottom Footer */}
+            <div className="p-3.5 sm:p-4 pb-[calc(0.85rem+env(safe-area-inset-bottom,0px))] sm:pb-4 border-t border-slate-200 bg-white flex items-center justify-end gap-2.5 sm:gap-3 shrink-0 shadow-[0_-4px_16px_rgba(0,0,0,0.04)]">
+              <button
+                className="px-4 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-sm transition-colors cursor-pointer"
+                onClick={() => setSelectedDishModal(null)}
+              >
                 Cancel
               </button>
-              <button className="btn-primary" onClick={handleAddCustomizedDish}>
+              <button
+                className="btn-primary flex-1 sm:flex-none justify-center px-5 py-2.5 text-sm sm:text-base cursor-pointer"
+                onClick={handleAddCustomizedDish}
+              >
                 <ShoppingBag size={16} /> Add to Order &bull; {formatINR((selectedDishModal.price + (extraTopping ? 150 : 0)) * customQty)}
               </button>
             </div>

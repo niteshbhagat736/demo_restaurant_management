@@ -146,34 +146,36 @@ export const TableBooking = () => {
   };
 
   return (
-    <div className="booking-page-container">
-      {/* Page Title Banner */}
-      <div className="booking-header-banner">
-        <div className="booking-header-badge">
-          <Sparkles size={15} /> INSTANT ONLINE TABLE RESERVATION
+    <div className="w-full max-w-[1600px] mx-auto px-3 sm:px-6 lg:px-10 py-2 sm:py-6 pb-20">
+      {/* Page Title Banner - Panoramic wide on Desktop */}
+      <div className="w-full bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white rounded-2xl sm:rounded-3xl p-6 sm:p-10 lg:p-12 mb-8 shadow-2xl text-center relative overflow-hidden border border-white/10">
+        <div className="inline-flex items-center gap-1.5 bg-amber-500/15 border border-amber-400/40 text-amber-300 px-3.5 py-1 rounded-full text-xs font-bold tracking-wider uppercase mb-3 sm:mb-4">
+          <Sparkles size={14} className="text-amber-400" /> INSTANT ONLINE TABLE RESERVATION
         </div>
-        <h1 className="booking-header-title">Reserve Your Table Experience</h1>
-        <p className="booking-header-subtitle">
-          Pick your party size, date, time slot, and preferred ambiance with ₹0 booking fees & instant digital pass.
+        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-2 sm:mb-3 text-white">
+          Reserve Your Table Experience
+        </h1>
+        <p className="text-slate-300 text-xs sm:text-base lg:text-lg max-w-2xl lg:max-w-3xl mx-auto leading-relaxed mb-6">
+          Pick your party size, date, time slot, and preferred ambiance with ₹0 booking fees &amp; instant digital pass.
         </p>
 
         {/* Quick feature strip */}
-        <div className="booking-features-strip">
-          <div className="booking-feat-item">
-            <CheckCircle2 size={16} color="#10b981" /> Instant Table Confirmation
+        <div className="flex justify-center items-center gap-4 sm:gap-8 flex-wrap pt-4 sm:pt-5 border-t border-white/10 text-xs sm:text-sm text-slate-200">
+          <div className="flex items-center gap-1.5 font-medium">
+            <CheckCircle2 size={16} className="text-emerald-400 shrink-0" /> Instant Table Confirmation
           </div>
-          <div className="booking-feat-item">
-            <CheckCircle2 size={16} color="#10b981" /> Free Cancellation
+          <div className="flex items-center gap-1.5 font-medium">
+            <CheckCircle2 size={16} className="text-emerald-400 shrink-0" /> Free Cancellation
           </div>
-          <div className="booking-feat-item">
-            <CheckCircle2 size={16} color="#10b981" /> Scannable QR Pass
+          <div className="flex items-center gap-1.5 font-medium">
+            <CheckCircle2 size={16} className="text-emerald-400 shrink-0" /> Scannable QR Pass
           </div>
         </div>
       </div>
 
-      <div className="booking-layout">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_390px] xl:grid-cols-[1fr_430px] 2xl:grid-cols-[1fr_460px] gap-6 lg:gap-8 xl:gap-10 items-start">
         {/* Left Column: Interactive Booking Form */}
-        <form onSubmit={handleSubmitBooking} className="booking-form-col">
+        <form onSubmit={handleSubmitBooking} className="space-y-6 lg:space-y-8 min-w-0">
           
           {/* Step 1: Guests & Date */}
           <div className="booking-card">
@@ -191,13 +193,13 @@ export const TableBooking = () => {
                 <Users size={16} color="var(--color-primary)" />
                 Number of Guests
               </label>
-              <div className="guest-pills-container">
+              <div className="grid grid-cols-2 sm:grid-cols-4 lg:flex lg:flex-wrap gap-2 sm:gap-2.5">
                 {[1, 2, 3, 4, 5, 6, 8, 10].map(num => (
                   <button
                     type="button"
                     key={num}
                     onClick={() => setGuestCount(num)}
-                    className={`guest-pill-btn ${guestCount === num ? 'active' : ''}`}
+                    className={`guest-pill-btn justify-center ${guestCount === num ? 'active' : ''}`}
                   >
                     {num === 1 ? <User size={15} /> : <Users size={15} />}
                     <span>{num}{num === 10 ? '+' : ''} {num === 1 ? 'Guest' : 'Guests'}</span>
@@ -212,7 +214,7 @@ export const TableBooking = () => {
                 <CalendarIcon size={16} color="var(--color-primary)" />
                 Select Date
               </label>
-              <div className="date-pills-container">
+              <div className="flex flex-col sm:flex-row gap-2.5 sm:items-center">
                 <button
                   type="button"
                   onClick={() => { setDateType('today'); setSelectedDate('2026-09-22'); }}
@@ -245,7 +247,7 @@ export const TableBooking = () => {
                 <Clock size={16} color="var(--color-primary)" />
                 Available Time Slots
               </label>
-              <div className="time-slots-grid">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-2.5">
                 {timeSlots.map(t => (
                   <button
                     type="button"
@@ -271,7 +273,7 @@ export const TableBooking = () => {
               </div>
             </div>
             
-            <div className="zones-grid">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
               {zones.map(z => {
                 const isSelected = selectedZone === z.name;
                 return (
@@ -412,7 +414,7 @@ export const TableBooking = () => {
         </form>
 
         {/* Right Column: Live Digital Boarding Pass Preview & Policies */}
-        <div className="booking-pass-col">
+        <div className="lg:sticky lg:top-24 space-y-6 min-w-0">
           
           {/* Live Interactive Digital Pass */}
           <div className="booking-pass-card">
@@ -491,9 +493,17 @@ export const TableBooking = () => {
 
       {/* Confirmation Modal */}
       {confirmedReservation && (
-        <div className="modal-overlay" onClick={() => setConfirmedReservation(null)}>
-          <div className="modal-card booking-confirm-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="confirm-modal-header">
+        <div
+          className="fixed inset-0 z-[2000] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/65 backdrop-blur-sm overflow-hidden"
+          onClick={() => setConfirmedReservation(null)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div
+            className="bg-white w-full max-w-full sm:max-w-lg max-h-[92dvh] sm:max-h-[88dvh] rounded-t-3xl sm:rounded-2xl flex flex-col shadow-2xl overflow-hidden animate-[modalPop_0.25s_cubic-bezier(0.16,1,0.3,1)]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="confirm-modal-header shrink-0">
               <div className="confirm-sparkle-bg"><Sparkles size={120} /></div>
               <div className="confirm-check-circle">
                 <CheckCircle2 size={36} color="#10b981" />
@@ -504,7 +514,7 @@ export const TableBooking = () => {
               </p>
             </div>
 
-            <div className="modal-body confirm-modal-body">
+            <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-6 space-y-4">
               <div className="confirm-qr-wrap">
                 <QrCode size={140} color="#0f172a" />
                 <div className="confirm-ticket-id">
@@ -534,10 +544,9 @@ export const TableBooking = () => {
               </div>
             </div>
 
-            <div className="modal-footer confirm-modal-footer">
+            <div className="p-3.5 sm:p-4 pb-[calc(0.85rem+env(safe-area-inset-bottom,0px))] sm:pb-4 border-t border-slate-200 bg-white flex flex-col sm:flex-row items-center justify-end gap-2.5 sm:gap-3 shrink-0 shadow-[0_-4px_16px_rgba(0,0,0,0.04)]">
               <button
-                className="btn-primary"
-                style={{ width: '100%', justifyContent: 'center', padding: '1rem', fontSize: '1rem' }}
+                className="btn-primary w-full sm:flex-1 justify-center py-3 text-sm cursor-pointer"
                 onClick={() => {
                   setConfirmedReservation(null);
                   setCurrentView('menu');
@@ -546,8 +555,7 @@ export const TableBooking = () => {
                 <UtensilsCrossed size={18} /> Pre-Order Food from Menu
               </button>
               <button
-                className="btn-secondary"
-                style={{ width: '100%', justifyContent: 'center', padding: '1rem', fontSize: '1rem' }}
+                className="btn-secondary w-full sm:w-auto justify-center py-3 text-sm cursor-pointer text-slate-700"
                 onClick={() => {
                   setConfirmedReservation(null);
                   setCurrentView('home');

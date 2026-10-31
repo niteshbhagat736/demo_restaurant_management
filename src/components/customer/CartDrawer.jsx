@@ -25,72 +25,64 @@ export const CartDrawer = () => {
   const grandTotal = subtotal + tax + tipAmount;
 
   return (
-    <div className="cart-drawer-overlay" onClick={() => setIsCartOpen(false)}>
-      <div className="cart-drawer" onClick={(e) => e.stopPropagation()}>
+    <div
+      className="fixed inset-0 z-[1600] flex justify-end bg-slate-900/50 backdrop-blur-sm overflow-hidden"
+      onClick={() => setIsCartOpen(false)}
+    >
+      <div
+        className="w-full max-w-md h-full bg-white flex flex-col shadow-2xl animate-[slideLeft_0.3s_ease]"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
-        <div className="modal-header">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-            <ShoppingBag size={20} color="var(--color-primary-hover)" />
-            <h3 style={{ fontSize: '1.25rem' }}>Your Digital Order</h3>
+        <div className="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between shrink-0 bg-white">
+          <div className="flex items-center gap-2.5">
+            <ShoppingBag size={20} className="text-amber-500" />
+            <h3 className="text-lg sm:text-xl font-bold text-slate-900">Your Digital Order</h3>
           </div>
-          <button className="icon-close-btn" onClick={() => setIsCartOpen(false)}>
+          <button className="icon-close-btn cursor-pointer" onClick={() => setIsCartOpen(false)}>
             <X size={18} />
           </button>
         </div>
 
         {/* Cart Body */}
-        <div className="modal-body" style={{ flex: 1 }}>
+        <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-5 space-y-4">
           {/* Order Type & Table Selection */}
-          <div style={{ background: 'var(--bg-surface)', padding: '1rem', borderRadius: 'var(--radius-md)', marginBottom: '1.25rem' }}>
-            <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
+          <div className="bg-slate-50 p-3.5 sm:p-4 rounded-xl border border-slate-200/80 space-y-3">
+            <div className="flex gap-2">
               <button
+                type="button"
                 onClick={() => setOrderType('Dine-In')}
-                style={{
-                  flex: 1,
-                  padding: '0.55rem',
-                  borderRadius: 'var(--radius-sm)',
-                  border: orderType === 'Dine-In' ? '1.5px solid var(--color-primary)' : '1px solid var(--border-light)',
-                  background: orderType === 'Dine-In' ? 'white' : 'transparent',
-                  fontWeight: 700,
-                  fontSize: '0.85rem',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '0.4rem'
-                }}
+                className={`flex-1 py-2 px-3 rounded-lg border font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                  orderType === 'Dine-In'
+                    ? 'border-amber-500 bg-white text-amber-900 shadow-xs'
+                    : 'border-slate-200 bg-transparent text-slate-500 hover:bg-slate-100'
+                }`}
               >
-                <UtensilsCrossed size={15} color={orderType === 'Dine-In' ? 'var(--color-primary-hover)' : 'var(--text-muted)'} /> Dine-In Table
+                <UtensilsCrossed size={15} className={orderType === 'Dine-In' ? 'text-amber-600' : 'text-slate-400'} />
+                <span>Dine-In Table</span>
               </button>
               <button
+                type="button"
                 onClick={() => setOrderType('Takeaway')}
-                style={{
-                  flex: 1,
-                  padding: '0.55rem',
-                  borderRadius: 'var(--radius-sm)',
-                  border: orderType === 'Takeaway' ? '1.5px solid var(--color-primary)' : '1px solid var(--border-light)',
-                  background: orderType === 'Takeaway' ? 'white' : 'transparent',
-                  fontWeight: 700,
-                  fontSize: '0.85rem',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '0.4rem'
-                }}
+                className={`flex-1 py-2 px-3 rounded-lg border font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                  orderType === 'Takeaway'
+                    ? 'border-amber-500 bg-white text-amber-900 shadow-xs'
+                    : 'border-slate-200 bg-transparent text-slate-500 hover:bg-slate-100'
+                }`}
               >
-                <ShoppingBag size={15} color={orderType === 'Takeaway' ? 'var(--color-primary-hover)' : 'var(--text-muted)'} /> Takeaway / Pickup
+                <ShoppingBag size={15} className={orderType === 'Takeaway' ? 'text-amber-600' : 'text-slate-400'} />
+                <span>Takeaway / Pickup</span>
               </button>
             </div>
 
             {orderType === 'Dine-In' && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem' }}>
-                <Table size={16} color="var(--text-muted)" />
-                <span style={{ fontWeight: 600 }}>Table Number:</span>
+              <div className="flex items-center gap-2 text-sm text-slate-700">
+                <Table size={16} className="text-slate-400" />
+                <span className="font-semibold text-xs sm:text-sm">Table Number:</span>
                 <select
                   value={tableNo}
                   onChange={(e) => setTableNo(e.target.value)}
-                  style={{ padding: '0.4rem 0.8rem', borderRadius: '6px', border: '1px solid var(--border-light)', outline: 'none', fontWeight: 700 }}
+                  className="px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-xs sm:text-sm font-bold text-slate-900 outline-none focus:border-amber-500 cursor-pointer"
                 >
                   {['Table 01', 'Table 02', 'Table 03', 'Table 04', 'Table 05', 'Table 06', 'Table 07', 'Table 08'].map(t => (
                     <option key={t} value={t}>{t}</option>
@@ -102,34 +94,47 @@ export const CartDrawer = () => {
 
           {/* Items List */}
           {cart.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '3rem 1rem', color: 'var(--text-muted)' }}>
-              <ShoppingBag size={48} strokeWidth={1} style={{ margin: '0 auto 1rem', opacity: 0.5 }} />
-              <h4>Your order cart is empty</h4>
-              <p style={{ fontSize: '0.88rem', marginTop: '0.4rem' }}>Select delicious dishes from our digital menu!</p>
+            <div className="text-center py-12 px-4 text-slate-400 space-y-2">
+              <ShoppingBag size={48} strokeWidth={1} className="mx-auto text-slate-300" />
+              <h4 className="text-base font-semibold text-slate-700">Your order cart is empty</h4>
+              <p className="text-xs sm:text-sm text-slate-400">Select delicious dishes from our digital menu!</p>
             </div>
           ) : (
-            <div>
+            <div className="space-y-3">
               {cart.map(item => (
-                <div key={item.id} className="cart-item-row">
-                  <img src={item.image} alt={item.name} className="cart-item-img" />
-                  <div style={{ flex: 1 }}>
-                    <h4 style={{ fontSize: '0.95rem', fontWeight: 700 }}>{item.name}</h4>
-                    <div style={{ fontSize: '0.85rem', color: 'var(--color-primary-hover)', fontWeight: 800 }}>
+                <div key={item.id} className="flex items-center gap-3 py-3 border-b border-slate-100 last:border-0">
+                  <img src={item.image} alt={item.name} className="w-16 h-16 rounded-xl object-cover shrink-0 border border-slate-100" />
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-sm font-bold text-slate-900 truncate">{item.name}</h4>
+                    <div className="text-sm font-extrabold text-amber-600">
                       {formatINR(item.price * item.quantity)}
                     </div>
                     {item.notes && (
-                      <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
+                      <div className="text-xs text-slate-400 italic truncate">
                         Note: {item.notes}
                       </div>
                     )}
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <button className="qty-btn" onClick={() => updateCartQuantity(item.id, -1)}>-</button>
-                    <span style={{ fontWeight: 700, fontSize: '0.9rem' }}>{item.quantity}</span>
-                    <button className="qty-btn" onClick={() => updateCartQuantity(item.id, 1)}>+</button>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      className="w-7 h-7 rounded-full border border-slate-200 hover:bg-slate-100 flex items-center justify-center font-bold text-xs text-slate-700 cursor-pointer active:scale-95"
+                      onClick={() => updateCartQuantity(item.id, -1)}
+                      aria-label="Decrease quantity"
+                    >
+                      -
+                    </button>
+                    <span className="font-bold text-xs text-slate-800 w-4 text-center">{item.quantity}</span>
+                    <button
+                      className="w-7 h-7 rounded-full border border-slate-200 hover:bg-slate-100 flex items-center justify-center font-bold text-xs text-slate-700 cursor-pointer active:scale-95"
+                      onClick={() => updateCartQuantity(item.id, 1)}
+                      aria-label="Increase quantity"
+                    >
+                      +
+                    </button>
                     <button
                       onClick={() => removeFromCart(item.id)}
-                      style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '0.2rem', marginLeft: '0.2rem' }}
+                      className="p-1.5 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
+                      aria-label="Remove item"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -138,26 +143,21 @@ export const CartDrawer = () => {
               ))}
 
               {/* Tip Selection */}
-              <div style={{ marginTop: '1.5rem', background: '#fffbeb', padding: '1rem', borderRadius: 'var(--radius-md)', border: '1px solid #fef3c7' }}>
-                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#92400e', marginBottom: '0.5rem' }}>
-                  Add Chef & Service Tip
+              <div className="bg-amber-50/70 border border-amber-200/80 p-3.5 rounded-xl space-y-2">
+                <div className="text-xs font-bold text-amber-900">
+                  Add Chef &amp; Service Tip
                 </div>
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <div className="flex gap-2">
                   {[0, 10, 15, 20].map(pct => (
                     <button
                       key={pct}
+                      type="button"
                       onClick={() => setSelectedTipPercent(pct)}
-                      style={{
-                        flex: 1,
-                        padding: '0.4rem',
-                        borderRadius: '6px',
-                        border: selectedTipPercent === pct ? '1.5px solid #d97706' : '1px solid #fde047',
-                        background: selectedTipPercent === pct ? '#f59e0b' : 'white',
-                        color: selectedTipPercent === pct ? 'white' : '#92400e',
-                        fontWeight: 700,
-                        fontSize: '0.82rem',
-                        cursor: 'pointer'
-                      }}
+                      className={`flex-1 py-1.5 rounded-lg border text-xs font-bold transition-all cursor-pointer ${
+                        selectedTipPercent === pct
+                          ? 'border-amber-500 bg-amber-500 text-white shadow-xs'
+                          : 'border-amber-200 bg-white text-amber-900 hover:bg-amber-100/50'
+                      }`}
                     >
                       {pct === 0 ? 'None' : `${pct}%`}
                     </button>
@@ -170,31 +170,30 @@ export const CartDrawer = () => {
 
         {/* Footer Summary & Checkout */}
         {cart.length > 0 && (
-          <div className="modal-footer" style={{ flexDirection: 'column', alignItems: 'stretch' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '0.9rem', marginBottom: '0.75rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)' }}>
+          <div className="p-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] border-t border-slate-200 bg-white flex flex-col gap-3 shrink-0 shadow-[0_-4px_16px_rgba(0,0,0,0.04)]">
+            <div className="space-y-1.5 text-xs sm:text-sm">
+              <div className="flex justify-between text-slate-500">
                 <span>Subtotal</span>
-                <span>{formatINR(subtotal)}</span>
+                <span className="font-semibold text-slate-700">{formatINR(subtotal)}</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)' }}>
-                <span>Tax & Service Charge (10%)</span>
-                <span>{formatINR(tax)}</span>
+              <div className="flex justify-between text-slate-500">
+                <span>Tax &amp; Service Charge (10%)</span>
+                <span className="font-semibold text-slate-700">{formatINR(tax)}</span>
               </div>
               {selectedTipPercent > 0 && (
-                <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)' }}>
+                <div className="flex justify-between text-slate-500">
                   <span>Staff Tip ({selectedTipPercent}%)</span>
-                  <span>{formatINR(tipAmount)}</span>
+                  <span className="font-semibold text-slate-700">{formatINR(tipAmount)}</span>
                 </div>
               )}
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-main)', paddingTop: '0.5rem', borderTop: '1px solid var(--border-light)' }}>
+              <div className="flex justify-between text-base sm:text-lg font-extrabold text-slate-900 pt-2 border-t border-slate-200">
                 <span>Grand Total</span>
-                <span>{formatINR(grandTotal)}</span>
+                <span className="text-amber-600">{formatINR(grandTotal)}</span>
               </div>
             </div>
 
             <button
-              className="btn-primary"
-              style={{ width: '100%', justifyContent: 'center' }}
+              className="btn-primary w-full justify-center py-3 text-sm sm:text-base cursor-pointer"
               onClick={() => {
                 setIsCartOpen(false);
                 setIsPaymentModalOpen(true);
@@ -204,6 +203,9 @@ export const CartDrawer = () => {
             </button>
           </div>
         )}
+      </div>
+    </div>
+  );
       </div>
     </div>
   );

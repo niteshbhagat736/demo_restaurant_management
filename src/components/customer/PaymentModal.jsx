@@ -62,66 +62,70 @@ export const PaymentModal = () => {
   };
 
   return (
-    <div className="modal-overlay payment-modal-overlay" onClick={() => !isProcessing && handleCloseModal()}>
-      <div className="modal-card" style={{ maxWidth: '560px' }} onClick={(e) => e.stopPropagation()}>
-        
+    <div
+      className="fixed inset-0 z-[2200] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/70 backdrop-blur-sm overflow-hidden"
+      onClick={() => !isProcessing && handleCloseModal()}
+    >
+      <div
+        className="bg-white w-full max-w-full sm:max-w-xl max-h-[92dvh] sm:max-h-[88dvh] rounded-t-3xl sm:rounded-2xl flex flex-col shadow-2xl overflow-hidden animate-[modalPop_0.25s_cubic-bezier(0.16,1,0.3,1)]"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Receipt View after successful simulated payment */}
         {completedOrderReceipt ? (
-          <div>
-            <div style={{ background: 'linear-gradient(135deg, #059669, #10b981)', color: 'white', padding: '2rem', textAlign: 'center' }}>
-              <CheckCircle size={56} style={{ margin: '0 auto 0.75rem' }} />
-              <h2 style={{ fontSize: '1.75rem' }}>Payment Successful!</h2>
-              <p style={{ opacity: 0.9, fontSize: '0.95rem', marginTop: '0.25rem' }}>
+          <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
+            <div className="bg-gradient-to-r from-emerald-600 to-teal-500 text-white p-6 sm:p-8 text-center shrink-0">
+              <CheckCircle size={52} className="mx-auto mb-2.5" />
+              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Payment Successful!</h2>
+              <p className="text-emerald-100 text-sm mt-1">
                 Order #{completedOrderReceipt.id} Transmitted to Kitchen
               </p>
             </div>
 
-            <div className="modal-body" style={{ background: '#faf9f6' }}>
-              <div style={{ background: 'white', border: '1px dashed var(--border-light)', padding: '1.25rem', borderRadius: 'var(--radius-md)', marginBottom: '1.25rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-light)', paddingBottom: '0.75rem', marginBottom: '0.75rem', fontWeight: 700, fontSize: '0.9rem' }}>
-                  <span>RECEIPT DETAILS</span>
-                  <span style={{ color: 'var(--color-primary-hover)' }}>{completedOrderReceipt.paymentStatus}</span>
+            <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-6 bg-slate-50 space-y-4">
+              <div className="bg-white border border-dashed border-slate-200 p-4 sm:p-5 rounded-xl shadow-xs">
+                <div className="flex justify-between items-center border-b border-slate-100 pb-3 mb-3 text-xs font-bold uppercase tracking-wider">
+                  <span className="text-slate-500">Receipt Details</span>
+                  <span className="text-amber-600">{completedOrderReceipt.paymentStatus}</span>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', marginBottom: '0.4rem', color: 'var(--text-muted)' }}>
+                <div className="flex justify-between text-sm mb-2 text-slate-500">
                   <span>Customer:</span>
-                  <span style={{ fontWeight: 600, color: 'var(--text-main)' }}>{completedOrderReceipt.customerName}</span>
+                  <span className="font-semibold text-slate-900">{completedOrderReceipt.customerName}</span>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', marginBottom: '0.4rem', color: 'var(--text-muted)' }}>
+                <div className="flex justify-between text-sm mb-2 text-slate-500">
                   <span>Table / Order Type:</span>
-                  <span style={{ fontWeight: 600, color: 'var(--text-main)' }}>{completedOrderReceipt.tableNo}</span>
+                  <span className="font-semibold text-slate-900">{completedOrderReceipt.tableNo}</span>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', marginBottom: '0.75rem', color: 'var(--text-muted)' }}>
+                <div className="flex justify-between text-sm mb-3 text-slate-500">
                   <span>Time Placed:</span>
-                  <span style={{ fontWeight: 600, color: 'var(--text-main)' }}>{completedOrderReceipt.createdAt}</span>
+                  <span className="font-semibold text-slate-900">{completedOrderReceipt.createdAt}</span>
                 </div>
 
-                <div style={{ borderTop: '1px solid var(--border-light)', paddingTop: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                <div className="border-t border-slate-100 pt-3 space-y-2">
                   {completedOrderReceipt.items.map(item => (
-                    <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
-                      <span>{item.quantity}x {item.name}</span>
-                      <span style={{ fontWeight: 600 }}>{formatINR(item.price * item.quantity)}</span>
+                    <div key={item.id} className="flex justify-between text-sm">
+                      <span className="text-slate-700">{item.quantity}x {item.name}</span>
+                      <span className="font-semibold text-slate-900">{formatINR(item.price * item.quantity)}</span>
                     </div>
                   ))}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.1rem', fontWeight: 800, marginTop: '0.5rem', paddingTop: '0.5rem', borderTop: '1px solid var(--border-light)' }}>
+                  <div className="flex justify-between text-base sm:text-lg font-extrabold pt-2 border-t border-slate-200 text-slate-900">
                     <span>Total Amount Paid</span>
-                    <span>{formatINR(completedOrderReceipt.totalAmount)}</span>
+                    <span className="text-emerald-600">{formatINR(completedOrderReceipt.totalAmount)}</span>
                   </div>
                 </div>
               </div>
 
-              <div style={{ background: '#ecfdf5', border: '1px solid #a7f3d0', padding: '0.85rem', borderRadius: 'var(--radius-sm)', color: '#065f46', fontSize: '0.88rem', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                <Receipt size={20} />
+              <div className="bg-emerald-50 border border-emerald-200 p-3 sm:p-3.5 rounded-xl text-emerald-800 text-xs sm:text-sm flex items-center gap-2.5">
+                <Receipt size={18} className="shrink-0" />
                 <span>You can track your order status live in the Order Tracker tab.</span>
               </div>
             </div>
 
-            <div className="modal-footer">
+            <div className="p-3.5 sm:p-4 pb-[calc(0.85rem+env(safe-area-inset-bottom,0px))] sm:pb-4 border-t border-slate-200 bg-white shrink-0">
               <button
-                className="btn-primary"
-                style={{ width: '100%', justifyContent: 'center' }}
+                className="btn-primary w-full justify-center py-3 text-sm sm:text-base cursor-pointer"
                 onClick={() => {
                   setCompletedOrderReceipt(null);
                   setIsPaymentModalOpen(false);
@@ -134,53 +138,53 @@ export const PaymentModal = () => {
           </div>
         ) : (
           /* Normal Payment Method Form */
-          <div>
-            <div className="modal-header">
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                <ShieldCheck size={22} color="var(--color-success)" />
-                <h3 style={{ fontSize: '1.25rem' }}>Simulated Integrated Checkout</h3>
+          <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
+            <div className="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between shrink-0 bg-white">
+              <div className="flex items-center gap-2.5">
+                <ShieldCheck size={22} className="text-emerald-500" />
+                <h3 className="text-lg sm:text-xl font-bold text-slate-900">Simulated Integrated Checkout</h3>
               </div>
-              <button className="icon-close-btn" onClick={handleCloseModal}><X size={18} /></button>
+              <button className="icon-close-btn cursor-pointer" onClick={handleCloseModal}><X size={18} /></button>
             </div>
 
-            <div className="modal-body">
+            <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-6 space-y-4">
               {/* Total Display Banner */}
-              <div style={{ background: 'linear-gradient(135deg, #1e293b, #0f172a)', color: 'white', padding: '1.25rem', borderRadius: 'var(--radius-md)', marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white p-4 sm:p-5 rounded-xl flex justify-between items-center shadow-sm">
                 <div>
-                  <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Total Payable Amount</div>
-                  <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#f59e0b' }}>{formatINR(totalAmount)}</div>
+                  <div className="text-xs text-slate-400 font-medium uppercase tracking-wider">Total Payable Amount</div>
+                  <div className="text-2xl sm:text-3xl font-extrabold text-amber-400">{formatINR(totalAmount)}</div>
                 </div>
-                <div style={{ fontSize: '0.8rem', background: 'rgba(255, 255, 255, 0.1)', padding: '0.4rem 0.8rem', borderRadius: '6px' }}>
+                <div className="text-xs bg-white/10 px-3 py-1.5 rounded-md font-semibold text-slate-200">
                   Pitch Demo Gateway
                 </div>
               </div>
 
               {/* Customer Info Inputs */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.25rem' }}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div>
-                  <label style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-muted)' }}>Customer Name</label>
+                  <label className="text-xs font-bold text-slate-600 block mb-1.5">Customer Name</label>
                   <input
                     type="text"
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
-                    style={{ width: '100%', padding: '0.65rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-light)', outline: 'none', fontWeight: 600 }}
+                    className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none text-sm font-semibold text-slate-900"
                   />
                 </div>
                 <div>
-                  <label style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-muted)' }}>Table Number</label>
+                  <label className="text-xs font-bold text-slate-600 block mb-1.5">Table Number</label>
                   <input
                     type="text"
                     value={tableNo}
                     onChange={(e) => setTableNo(e.target.value)}
-                    style={{ width: '100%', padding: '0.65rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-light)', outline: 'none', fontWeight: 600 }}
+                    className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none text-sm font-semibold text-slate-900"
                   />
                 </div>
               </div>
 
               {/* Payment Method Selector Tabs */}
-              <div style={{ marginBottom: '1.25rem' }}>
-                <label style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-muted)', display: 'block', marginBottom: '0.5rem' }}>Select Payment Gateway</label>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.5rem' }}>
+              <div>
+                <label className="text-xs font-bold text-slate-600 block mb-2">Select Payment Gateway</label>
+                <div className="grid grid-cols-4 gap-2">
                   {[
                     { id: 'card', label: 'Card', icon: CreditCard },
                     { id: 'upi', label: 'UPI / QR', icon: QrCode },
@@ -188,27 +192,20 @@ export const PaymentModal = () => {
                     { id: 'cash', label: 'Cash', icon: Banknote }
                   ].map(method => {
                     const IconComp = method.icon;
+                    const isActive = paymentMethod === method.id;
                     return (
                       <button
                         key={method.id}
+                        type="button"
                         onClick={() => setPaymentMethod(method.id)}
-                        style={{
-                          padding: '0.6rem 0.2rem',
-                          borderRadius: 'var(--radius-md)',
-                          border: paymentMethod === method.id ? '2px solid var(--color-primary)' : '1px solid var(--border-light)',
-                          background: paymentMethod === method.id ? '#fffbeb' : 'white',
-                          color: paymentMethod === method.id ? '#92400e' : 'var(--text-muted)',
-                          fontWeight: 700,
-                          fontSize: '0.82rem',
-                          cursor: 'pointer',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          gap: '0.3rem'
-                        }}
+                        className={`py-2.5 px-1 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition-all text-xs font-bold cursor-pointer ${
+                          isActive
+                            ? 'border-amber-500 bg-amber-50 text-amber-800 shadow-xs'
+                            : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'
+                        }`}
                       >
                         <IconComp size={18} />
-                        {method.label}
+                        <span>{method.label}</span>
                       </button>
                     );
                   })}
@@ -217,33 +214,33 @@ export const PaymentModal = () => {
 
               {/* Tab Content 1: Card */}
               {paymentMethod === 'card' && (
-                <div style={{ background: 'var(--bg-surface)', padding: '1.25rem', borderRadius: 'var(--radius-md)', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/80 space-y-3">
                   <div>
-                    <label style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)' }}>Card Number</label>
+                    <label className="text-xs font-semibold text-slate-600 block mb-1">Card Number</label>
                     <input
                       type="text"
                       value={cardNumber}
                       onChange={(e) => setCardNumber(e.target.value)}
-                      style={{ width: '100%', padding: '0.6rem', borderRadius: '6px', border: '1px solid var(--border-light)', outline: 'none', fontWeight: 600 }}
+                      className="w-full p-2.5 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-900 focus:border-amber-500 outline-none"
                     />
                   </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                  <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)' }}>Expiry Date</label>
+                      <label className="text-xs font-semibold text-slate-600 block mb-1">Expiry Date</label>
                       <input
                         type="text"
                         value={cardExpiry}
                         onChange={(e) => setCardExpiry(e.target.value)}
-                        style={{ width: '100%', padding: '0.6rem', borderRadius: '6px', border: '1px solid var(--border-light)', outline: 'none', fontWeight: 600 }}
+                        className="w-full p-2.5 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-900 focus:border-amber-500 outline-none"
                       />
                     </div>
                     <div>
-                      <label style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)' }}>CVC / CVV</label>
+                      <label className="text-xs font-semibold text-slate-600 block mb-1">CVC / CVV</label>
                       <input
                         type="text"
                         value={cardCvc}
                         onChange={(e) => setCardCvc(e.target.value)}
-                        style={{ width: '100%', padding: '0.6rem', borderRadius: '6px', border: '1px solid var(--border-light)', outline: 'none', fontWeight: 600 }}
+                        className="w-full p-2.5 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-900 focus:border-amber-500 outline-none"
                       />
                     </div>
                   </div>
@@ -252,23 +249,23 @@ export const PaymentModal = () => {
 
               {/* Tab Content 2: UPI QR */}
               {paymentMethod === 'upi' && (
-                <div style={{ background: 'var(--bg-surface)', padding: '1.25rem', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
-                  <div style={{ background: 'white', padding: '1rem', display: 'inline-block', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-light)', marginBottom: '0.75rem' }}>
-                    <QrCode size={120} color="#0f172a" />
+                <div className="bg-slate-50 p-5 rounded-xl border border-slate-200/80 text-center space-y-2">
+                  <div className="bg-white p-3 inline-block rounded-xl border border-slate-200 shadow-xs">
+                    <QrCode size={110} className="text-slate-900" />
                   </div>
-                  <div style={{ fontSize: '0.85rem', fontWeight: 700 }}>Scan QR with Google Pay, PhonePe or Paytm</div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
-                    UPI ID: <code style={{ background: '#e2e8f0', padding: '0.2rem 0.4rem', borderRadius: '4px' }}>gourmetpulse@merchant</code>
+                  <div className="text-sm font-bold text-slate-800">Scan QR with Google Pay, PhonePe or Paytm</div>
+                  <div className="text-xs text-slate-500">
+                    UPI ID: <code className="bg-slate-200 px-2 py-0.5 rounded text-slate-800 font-mono">gourmetpulse@merchant</code>
                   </div>
                 </div>
               )}
 
               {/* Tab Content 3: Apple / Google Pay */}
               {paymentMethod === 'applepay' && (
-                <div style={{ background: 'black', color: 'white', padding: '1.5rem', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
-                  <Smartphone size={32} style={{ margin: '0 auto 0.5rem' }} />
-                  <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>Express Wallet Payment</div>
-                  <p style={{ fontSize: '0.85rem', opacity: 0.8, marginTop: '0.25rem' }}>
+                <div className="bg-black text-white p-6 rounded-xl text-center space-y-1">
+                  <Smartphone size={32} className="mx-auto mb-2 text-white/90" />
+                  <div className="font-bold text-base">Express Wallet Payment</div>
+                  <p className="text-xs text-slate-400">
                     Touch ID / Face ID verification simulation ready.
                   </p>
                 </div>
@@ -276,20 +273,20 @@ export const PaymentModal = () => {
 
               {/* Tab Content 4: Cash */}
               {paymentMethod === 'cash' && (
-                <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', padding: '1.25rem', borderRadius: 'var(--radius-md)', color: '#166534' }}>
-                  <Banknote size={28} style={{ marginBottom: '0.5rem' }} />
-                  <div style={{ fontWeight: 700 }}>Pay via Cash or Card Swiper at Table</div>
-                  <p style={{ fontSize: '0.85rem', marginTop: '0.25rem' }}>
+                <div className="bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-emerald-900 space-y-1">
+                  <Banknote size={26} className="text-emerald-600 mb-1" />
+                  <div className="font-bold text-sm">Pay via Cash or Card Swiper at Table</div>
+                  <p className="text-xs text-emerald-700">
                     Your table waiter will bring the physical terminal or print your invoice upon food delivery.
                   </p>
                 </div>
               )}
             </div>
 
-            <div className="modal-footer">
+            <div className="p-3.5 sm:p-4 pb-[calc(0.85rem+env(safe-area-inset-bottom,0px))] sm:pb-4 border-t border-slate-200 bg-white flex items-center justify-end gap-2.5 sm:gap-3 shrink-0 shadow-[0_-4px_16px_rgba(0,0,0,0.04)]">
               <button
-                className="btn-secondary"
-                style={{ color: 'var(--text-main)', borderColor: 'var(--border-light)' }}
+                type="button"
+                className="px-4 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-sm transition-colors cursor-pointer"
                 onClick={handleCloseModal}
                 disabled={isProcessing}
               >
@@ -297,7 +294,8 @@ export const PaymentModal = () => {
               </button>
 
               <button
-                className="btn-primary"
+                type="button"
+                className="btn-primary flex-1 sm:flex-none justify-center px-5 py-2.5 text-sm sm:text-base cursor-pointer"
                 onClick={handleSimulatePayment}
                 disabled={isProcessing}
               >
@@ -307,14 +305,13 @@ export const PaymentModal = () => {
                   </>
                 ) : (
                   <>
-                    <CheckCircle size={18} /> Pay {formatINR(totalAmount)} & Place Order
+                    <CheckCircle size={18} /> Pay {formatINR(totalAmount)} &amp; Place Order
                   </>
                 )}
               </button>
             </div>
           </div>
         )}
-
       </div>
     </div>
   );
